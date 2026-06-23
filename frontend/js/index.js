@@ -49,17 +49,20 @@ window.cityClickHandler = cityClickHandler;
 
 window.addEventListener("load", async () => {
   // get popular cities and show
-  popularCities().then((data) => {
+  popularCities().then((response) => {
     const cityWrapper = document.querySelector(".city-wrapper");
+    const popularCities = response.data.cities.filter(
+      (town) => town.popular === true,
+    );
 
-    data.map((city) => {
+    popularCities.map((city) => {
       cityWrapper.insertAdjacentHTML(
         "beforeend",
         `
         <div class="col-2 d-flex justify-content-center">
-        <li class="main__cities-item">
-        <a class="main__cities-link" href="#" onclick = "cityClickHandler(event,'${city.href}')">${city.name}</a>
-        </li>
+          <li class="main__cities-item">
+            <a class="main__cities-link" href="#" onclick = "cityClickHandler(event,'${city.href}')">${city.name}</a>
+          </li>
         </div>
         `,
       );
@@ -73,5 +76,5 @@ window.addEventListener("load", async () => {
   // get all cities and search
   const searchInput = document.querySelector(".main__input");
   searchInput.addEventListener("keyup", (event) => search(event));
-  cityList = await getAllCities();
+  cityList = await getAllCities().then((response) => response.data.cities);
 });
