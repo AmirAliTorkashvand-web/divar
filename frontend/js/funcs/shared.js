@@ -31,4 +31,17 @@ const getAllCities = async () => {
   return data;
 };
 
-export { popularCities, setCityCookie, getCityCookie, getAllCities };
+const getAllSocials = async () => {
+  const res = await fetch("https://divarapi.liara.run/v1/social");
+  const data = await res.json();
+
+  return data;
+};
+
+export {
+  popularCities,
+  setCityCookie,
+  getCityCookie,
+  getAllCities,
+  getAllSocials,
+};

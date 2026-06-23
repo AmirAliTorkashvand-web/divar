@@ -1,5 +1,6 @@
 import {
   getAllCities,
+  getAllSocials,
   getCityCookie,
   popularCities,
   setCityCookie,
@@ -77,4 +78,23 @@ window.addEventListener("load", async () => {
   const searchInput = document.querySelector(".main__input");
   searchInput.addEventListener("keyup", (event) => search(event));
   cityList = await getAllCities().then((response) => response.data.cities);
+
+  // get socials
+  getAllSocials().then((response) => {
+    console.log(response);
+    const socialWrapper = document.querySelector(".footer__list");
+    console.log(response.data.socials)
+
+    response.data.socials.map(social => {
+      socialWrapper.insertAdjacentHTML("beforeend", 
+        `
+          <li class="footer__item">
+            <a class="footer__link" href="${social.link}">
+              <img src="${social.icon.path}" alt="" class="footer__icon bi-instagram"></img>
+            </a>
+          </li>
+        `
+      )
+    })
+  });
 });
