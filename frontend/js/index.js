@@ -1,4 +1,9 @@
-import { getCityCookie, popularCities, setCityCookie } from "./funcs/shared.js";
+import {
+  getAllCities,
+  getCityCookie,
+  popularCities,
+  setCityCookie,
+} from "./funcs/shared.js";
 
 const cityClickHandler = (event, city) => {
   event.preventDefault();
@@ -12,9 +17,38 @@ const loadCityPosts = (city) => {
   }
 };
 
+let cityList = null;
+
+const search = (event) => {
+  const citySearchResults = document.querySelector(".search-result-cities");
+
+  const citySearchTitle = event.target.value;
+  const cityResults = cityList.filter((city) =>
+    city.name.startsWith(citySearchTitle),
+  );
+
+  if (cityResults) {
+    citySearchResults.classList.add("active");
+    citySearchResults.innerHTML = "";
+    cityResults.map((city) => {
+      citySearchResults.insertAdjacentHTML(
+        "beforeend",
+        `
+          <li onclick = "cityClickHandler(event,'${city.href}')">${city.name}</li>
+        `,
+      );
+    });
+  }
+
+  if (!citySearchTitle.trim()) {
+    citySearchResults.classList.remove("active");
+  }
+};
+
 window.cityClickHandler = cityClickHandler;
 
-window.addEventListener("load", () => {
+window.addEventListener("load", async () => {
+  // get popular cities and show
   popularCities().then((data) => {
     const cityWrapper = document.querySelector(".city-wrapper");
 
@@ -22,16 +56,22 @@ window.addEventListener("load", () => {
       cityWrapper.insertAdjacentHTML(
         "beforeend",
         `
-                <div class="col-2 d-flex justify-content-center">
-                    <li class="main__cities-item">
-                        <a class="main__cities-link" href="#" onclick = "cityClickHandler(event,'${city.href}')">${city.name}</a>
-                    </li>
-                </div>
-            `,
+        <div class="col-2 d-flex justify-content-center">
+        <li class="main__cities-item">
+        <a class="main__cities-link" href="#" onclick = "cityClickHandler(event,'${city.href}')">${city.name}</a>
+        </li>
+        </div>
+        `,
       );
     });
-
-    const cityCookie = getCityCookie();
-    loadCityPosts(cityCookie);
   });
+
+  // get city cookie and redirect
+  const cityCookie = getCityCookie();
+  loadCityPosts(cityCookie);
+
+  // get all cities and search
+  const searchInput = document.querySelector(".main__input");
+  searchInput.addEventListener("keyup", (event) => search(event));
+  cityList = await getAllCities();
 });

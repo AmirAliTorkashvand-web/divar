@@ -24,4 +24,11 @@ const getCityCookie = () => {
   return result;
 };
 
-export { popularCities, setCityCookie, getCityCookie };
+const getAllCities = async () => {
+  const res = await fetch("http://localhost:4000/api/cities");
+  const data = await res.json();
+
+  return data
+};
+
+export { popularCities, setCityCookie, getCityCookie, getAllCities };
