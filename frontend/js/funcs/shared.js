@@ -9,4 +9,19 @@ const setCityCookie = (city) => {
   document.cookie = `city=${city}; path=/`;
 };
 
-export { popularCities, setCityCookie };
+const getCityCookie = () => {
+  const cookieName = "city=";
+  const cookieArray = document.cookie.split(";");
+
+  let result = null;
+
+  cookieArray.forEach((cookie) => {
+    if (cookie.indexOf(cookieName) === 0) {
+      result = cookie.substring(cookieName.length);
+    }
+  });
+
+  return result;
+};
+
+export { popularCities, setCityCookie, getCityCookie };

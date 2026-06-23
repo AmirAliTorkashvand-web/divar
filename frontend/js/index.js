@@ -1,4 +1,4 @@
-import { popularCities, setCityCookie } from "./funcs/shared.js";
+import { getCityCookie, popularCities, setCityCookie } from "./funcs/shared.js";
 
 const cityClickHandler = (event, city) => {
   event.preventDefault();
@@ -6,11 +6,16 @@ const cityClickHandler = (event, city) => {
   window.location.href = `http://127.0.0.1:5500/frontend/pages/main.html?city=${city}`;
 };
 
+const loadCityPosts = (city) => {
+  if (city) {
+    window.location.href = `http://127.0.0.1:5500/frontend/pages/main.html?city=${city}`;
+  }
+};
+
 window.cityClickHandler = cityClickHandler;
 
 window.addEventListener("load", () => {
   popularCities().then((data) => {
-    console.log(data);
     const cityWrapper = document.querySelector(".city-wrapper");
 
     data.map((city) => {
@@ -25,5 +30,8 @@ window.addEventListener("load", () => {
             `,
       );
     });
+
+    const cityCookie = getCityCookie();
+    loadCityPosts(cityCookie);
   });
 });
