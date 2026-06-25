@@ -551,12 +551,14 @@ button {
     border-radius: 0.3rem;
     padding: 1.5rem 2rem;
     margin: 1rem 0;
+    height: 200px;
 }
 .product-card__right {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     margin-left: 2rem;
+    height: 100%;
 }
 .product-card__link {
     color: var(--black-color);
@@ -580,9 +582,12 @@ button {
 .product-card__left {
     display: flex;
     align-items: flex-end;
+    width: 200px;
+    justify-content: flex-end;
 }
 .product-card__img {
     border-radius: 0.3rem;
+    height: 100%;
 }
 .product-card__icon {
     font-size: var(--font-size-md);

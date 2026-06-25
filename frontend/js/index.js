@@ -9,15 +9,16 @@ import {
 const cityClickHandler = (event, city) => {
   event.preventDefault();
   setCityCookie(city);
-  window.location.href = `http://127.0.0.1:5500/frontend/pages/main.html?city=${city}`;
+  window.location.href = `http://127.0.0.1:5500/frontend/pages/main.html?city=${city.name}`;
 };
 
 const loadCityPosts = (city) => {
   if (city) {
-    window.location.href = `http://127.0.0.1:5500/frontend/pages/main.html?city=${city}`;
+    window.location.href = `http://127.0.0.1:5500/frontend/pages/main.html?city=${city.name}`;
   }
 };
 
+window.cityClickHandler = cityClickHandler;
 let cityList = null;
 
 const search = (event) => {
@@ -35,7 +36,12 @@ const search = (event) => {
       citySearchResults.insertAdjacentHTML(
         "beforeend",
         `
-          <li onclick = "cityClickHandler(event,'${city.slug}')">${city.name}</li>
+          <li onclick='cityClickHandler(event, ${JSON.stringify({
+            id: city.id,
+            name: city.name,
+          })})'>
+            ${city.name}
+          </li>
         `,
       );
     });
@@ -45,8 +51,6 @@ const search = (event) => {
     citySearchResults.classList.remove("active");
   }
 };
-
-window.cityClickHandler = cityClickHandler;
 
 window.addEventListener("load", async () => {
   // get popular cities and show
@@ -62,14 +66,14 @@ window.addEventListener("load", async () => {
         `
         <div class="col-2 d-flex justify-content-center">
           <li class="main__cities-item">
-            <a class="main__cities-link" href="#" onclick="cityClickHandler(event, 
+            <a class="main__cities-link" onclick='cityClickHandler(event, ${JSON.stringify(
               {
-                id: '${city.id}',
-                name: '${city.name}'
-              }
-                )">${city.name}
-            </a>
-          </li>
+                id: city.id,
+                name: city.name,
+              },
+            )})'>
+            ${city.name}
+          </a>
         </div>
         `,
       );
