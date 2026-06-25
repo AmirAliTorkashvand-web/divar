@@ -35,7 +35,7 @@ const search = (event) => {
       citySearchResults.insertAdjacentHTML(
         "beforeend",
         `
-          <li onclick = "cityClickHandler(event,'${city.href}')">${city.name}</li>
+          <li onclick = "cityClickHandler(event,'${city.slug}')">${city.name}</li>
         `,
       );
     });
@@ -62,7 +62,13 @@ window.addEventListener("load", async () => {
         `
         <div class="col-2 d-flex justify-content-center">
           <li class="main__cities-item">
-            <a class="main__cities-link" href="#" onclick = "cityClickHandler(event,'${city.href}')">${city.name}</a>
+            <a class="main__cities-link" href="#" onclick="cityClickHandler(event, 
+              {
+                id: '${city.id}',
+                name: '${city.name}'
+              }
+                )">${city.name}
+            </a>
           </li>
         </div>
         `,
@@ -81,20 +87,18 @@ window.addEventListener("load", async () => {
 
   // get socials
   getAllSocials().then((response) => {
-    console.log(response);
     const socialWrapper = document.querySelector(".footer__list");
-    console.log(response.data.socials)
-
-    response.data.socials.map(social => {
-      socialWrapper.insertAdjacentHTML("beforeend", 
+    response.data.socials.map((social) => {
+      socialWrapper.insertAdjacentHTML(
+        "beforeend",
         `
           <li class="footer__item">
             <a class="footer__link" href="${social.link}">
               <img src="${social.icon.path}" alt="" class="footer__icon bi-instagram"></img>
             </a>
           </li>
-        `
-      )
-    })
+        `,
+      );
+    });
   });
 });
