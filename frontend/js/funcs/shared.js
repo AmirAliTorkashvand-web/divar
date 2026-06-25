@@ -59,6 +59,41 @@ const getPosts = async (cityID) => {
   return data;
 };
 
+const getAllCategories = async () => {
+  const res = await fetch("https://divarapi.liara.run/v1/category");
+  const data = await res.json();
+
+  return data;
+};
+
+const addParamToUrl = (param, value) => {
+  const url = new URL(location.href);
+  const searchParams = url.searchParams;
+
+  searchParams.set(param, value);
+  url.search = searchParams.toString();
+  location.href = url.toString();
+};
+
+const calcualetRelativeTime = (createdTime) => {
+  const currentTime = new Date();
+  const postTime = new Date(createdTime);
+  const timeDifference = currentTime - postTime;
+  const hours = Math.floor(timeDifference / (60 * 60 * 1000));
+  const days = Math.floor(hours / 24);
+
+  if (hours < 24) {
+    return `${hours} ساعت پیش`;
+  } else {
+    return `${days} روز پیش`;
+  }
+};
+
+const getUrlParam = (param) => {
+  const urlParam = new URLSearchParams(location.search);
+  return urlParam.get(param);
+};
+
 export {
   popularCities,
   setCityCookie,
@@ -66,4 +101,8 @@ export {
   getAllCities,
   getAllSocials,
   getPosts,
+  getAllCategories,
+  addParamToUrl,
+  calcualetRelativeTime,
+  getUrlParam,
 };

@@ -1,11 +1,22 @@
-import { getCityCookie, getPosts } from "./funcs/shared.js";
+import {
+  addParamToUrl,
+  calcualetRelativeTime,
+  getAllCategories,
+  getCityCookie,
+  getPosts,
+  getUrlParam,
+} from "./funcs/shared.js";
+
+window.categoryClickHandler = (categoryID) => {
+  addParamToUrl("category", categoryID);
+};
 
 window.addEventListener("load", async () => {
+  // get all posts
   const cityIds = getCityCookie()?.map((city) => city.id);
   const productWrapper = document.querySelector("#product-wrapper");
 
   getPosts(cityIds).then((response) => {
-    console.log(response.data.posts);
     productWrapper.innerHTML = "";
 
     if (response.data.posts.length > 0) {
@@ -22,7 +33,7 @@ window.addEventListener("load", async () => {
                       <div class="product-card__right-bottom">
                           <span class="product-card__condition">${product.dynamicFields?.[0].data}</span>
                           <span class="product-card__price">${product.price.toLocaleString()} تومان</span>
-                          <span class="product-card__time">لحظاتی پیش</span>
+                          <span class="product-card__time">${calcualetRelativeTime(product.createdAt)}</span>
                       </div>
                   </div>
                   <div class="product-card__left">
@@ -40,10 +51,59 @@ window.addEventListener("load", async () => {
           `,
         );
       });
-    } else{
+    } else {
       productWrapper.insertAdjacentHTML(
-        "beforeend",`<span>آگهی یافت نشد</span>`,
+        "beforeend",
+        `<span>آگهی یافت نشد</span>`,
       );
+    }
+  });
+
+  // get all categories
+  const categoryWrapper = document.querySelector(".sidebar__category-item");
+
+  const createSubCategories = (subCategory) => {
+    return `
+      <li>${subCategory.title}</li>
+    `;
+  };
+
+  getAllCategories().then((response) => {
+    const categoryName = getUrlParam("category");
+
+    if (categoryName) {
+      const categoryInfos = response.data.categories.filter(
+        (category) => category.slug === categoryName,
+      );
+
+      if (!categoryInfos.length) {
+      } else {
+        categoryInfos.map((category) => {
+          console.log(category);
+          categoryWrapper.insertAdjacentHTML(
+            "beforeend",
+            `
+            <a class="sidebar__category-link" href="#" onclick="categoryClickHandler('${category.slug}')">
+              ${category.title}
+            </a>
+            <div class="subCategories">
+              ${category.subCategories.map((subCategory) => createSubCategories(subCategory)).join("")}
+            </div>
+            `
+          );
+        });
+      }
+    } else {
+      response.data.categories.map((category) => {
+        categoryWrapper.insertAdjacentHTML(
+          "beforeend",
+          `
+            <a class="sidebar__category-link" href="#" onclick="categoryClickHandler('${category.slug}')">
+              ${category.title}
+            </a>
+          `,
+        );
+      });
     }
   });
 });
