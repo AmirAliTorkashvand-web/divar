@@ -62,7 +62,22 @@ window.addEventListener("load", async () => {
   // get all categories
   const categoryWrapper = document.querySelector(".sidebar__category-item");
 
+  const findSubCategories = (category, categoryID) => {
+    const urlParam = getUrlParam("category");
+    const subCategoryInfo = category
+      .flatMap((category) => category.subCategories)
+      .find((subCategory) => subCategory.slug === urlParam);
+
+    return subCategoryInfo;
+  };
+
   const createSubCategories = (subCategory) => {
+    return `
+      <li onclick="categoryClickHandler('${subCategory.slug}')">${subCategory.title}</li>
+    `;
+  };
+
+  const createSubSubCategories = (subCategory) => {
     return `
       <li>${subCategory.title}</li>
     `;
@@ -77,6 +92,23 @@ window.addEventListener("load", async () => {
       );
 
       if (!categoryInfos.length) {
+        const subCategory = findSubCategories(
+          response.data.categories,
+          categoryName,
+        );
+
+        console.log(subCategory);
+
+        categoryWrapper.insertAdjacentHTML("beforeend", 
+          `
+            <a class="sidebar__category-link">
+              ${subCategory.title}
+            </a>
+            <div class="subCategories">
+              ${subCategory.subCategories.map((subCategory) => createSubCategories(subCategory)).join("")}
+            </div>
+          `
+        )
       } else {
         categoryInfos.map((category) => {
           console.log(category);
@@ -89,7 +121,7 @@ window.addEventListener("load", async () => {
             <div class="subCategories">
               ${category.subCategories.map((subCategory) => createSubCategories(subCategory)).join("")}
             </div>
-            `
+            `,
           );
         });
       }

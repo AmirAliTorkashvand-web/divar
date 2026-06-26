@@ -8,11 +8,13 @@ const popularCities = async () => {
 const setCityCookie = (city) => {
   const cities = getCityCookie() || [];
 
-  if (!cities.includes(city)) {
+  if (!cities.some((item) => item.id === city.id)) {
     cities.push(city);
   }
 
-  document.cookie = `city=${JSON.stringify(cities)}; path=/`;
+  document.cookie = `city=${encodeURIComponent(
+    JSON.stringify(cities),
+  )}; path=/; max-age=${60 * 60 * 24 * 30}`;
 };
 
 const getCityCookie = () => {
@@ -25,7 +27,7 @@ const getCityCookie = () => {
     cookie = cookie.trim();
 
     if (cookie.startsWith(cookieName)) {
-      const value = cookie.substring(cookieName.length);
+      const value = decodeURIComponent(cookie.substring(cookieName.length));
 
       try {
         result = JSON.parse(value);
