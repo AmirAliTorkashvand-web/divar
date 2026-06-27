@@ -59,7 +59,7 @@ window.addEventListener("load", async () => {
     }
   });
 
-  // get all categories
+  // get all categories and sub categories and filters
   const categoryWrapper = document.querySelector(".sidebar__category-item");
 
   const findSubCategories = (category, categoryID) => {
@@ -77,10 +77,52 @@ window.addEventListener("load", async () => {
     `;
   };
 
+  const createFilterOptions = (options) => {
+    return options
+      .map(
+        (option) => `
+        <option value="${option}">${option}</option>
+      `,
+      )
+      .join("");
+  };
+
   const createSubSubCategories = (subCategory) => {
     return `
       <li>${subCategory.title}</li>
     `;
+  };
+
+  const renderFilters = (category) => {
+    const allFilters = category.filters;
+
+    if (allFilters.length > 0) {
+      const filtersContainer = document.querySelector(".sidebar__filters");
+      allFilters.map((filter) => {
+        const filterOptions = filter.options;
+        if (filter.type === "selectbox") {
+          filtersContainer.insertAdjacentHTML(
+            "beforeend",
+            `
+              <div class="sidebar__filter">
+                <div class="sidebar__filter-title-wrapper">
+                  <i class="sidebar__filter-icon bi bi-chevron-down"></i>
+                  <span class="sidebar__filter-title">${filter.name}</span>
+                </div>
+                <div class="sidebar__filter-price sidebar__filter-item">
+                  <select name="" id="">
+                    ${createFilterOptions(filterOptions)}
+                  </select>
+                  
+                </div>
+              </div>
+            `,
+          );
+        }
+      });
+    } else {
+      return;
+    }
   };
 
   getAllCategories().then((response) => {
@@ -97,9 +139,10 @@ window.addEventListener("load", async () => {
           categoryName,
         );
 
-        console.log(subCategory);
+        renderFilters(subCategory);
 
-        categoryWrapper.insertAdjacentHTML("beforeend", 
+        categoryWrapper.insertAdjacentHTML(
+          "beforeend",
           `
             <a class="sidebar__category-link">
               ${subCategory.title}
@@ -107,11 +150,11 @@ window.addEventListener("load", async () => {
             <div class="subCategories">
               ${subCategory.subCategories.map((subCategory) => createSubCategories(subCategory)).join("")}
             </div>
-          `
-        )
+          `,
+        );
       } else {
         categoryInfos.map((category) => {
-          console.log(category);
+          renderFilters(category);
           categoryWrapper.insertAdjacentHTML(
             "beforeend",
             `
@@ -136,6 +179,18 @@ window.addEventListener("load", async () => {
           `,
         );
       });
+    }
+  });
+
+  // search in posts
+  const inputEl = document.querySelector(".header__form-input");
+
+  inputEl.addEventListener("keyup", (event) => {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+      if (event.target.value.trim()) {
+        addParamToUrl("q", event.target.value.trim());
+      }
     }
   });
 });
