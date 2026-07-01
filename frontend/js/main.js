@@ -71,6 +71,24 @@ window.addEventListener("load", async () => {
     return subCategoryInfo;
   };
 
+  const findSubSubCategories = (category, categoryID) => {
+    const urlParam = getUrlParam("category");
+    const subSubCategory = category
+      .flatMap((categories) => categories.subCategories)
+      .flatMap((subCategory) => subCategory.subCategories)
+      .find((item) => item.slug === urlParam);
+
+    return subSubCategory;
+  };
+
+  const findSubCategorieParent = (category, categoryID) => {
+    const subCategoryInfo = category
+      .flatMap((category) => category.subCategories)
+      .find((subID) => subID._id === categoryID);
+
+    return subCategoryInfo;
+  };
+
   const createSubCategories = (subCategory) => {
     return `
       <li onclick="categoryClickHandler('${subCategory.slug}')">${subCategory.title}</li>
@@ -139,19 +157,47 @@ window.addEventListener("load", async () => {
           categoryName,
         );
 
-        renderFilters(subCategory);
+        if (subCategory) {
+          renderFilters(subCategory);
 
-        categoryWrapper.insertAdjacentHTML(
-          "beforeend",
-          `
-            <a class="sidebar__category-link">
-              ${subCategory.title}
-            </a>
-            <div class="subCategories">
-              ${subCategory.subCategories.map((subCategory) => createSubCategories(subCategory)).join("")}
-            </div>
-          `,
-        );
+          categoryWrapper.insertAdjacentHTML(
+            "beforeend",
+            `
+              <a class="sidebar__category-link">
+                ${subCategory.title}
+              </a>
+              <div class="subCategories">
+                ${subCategory.subCategories.map((subCategory) => createSubCategories(subCategory)).join("")}
+              </div>
+            `,
+          );
+          console.log(subCategory);
+        } else {
+          let subCategoryID = null;
+          const subSubCategories = findSubSubCategories(
+            response.data.categories,
+            categoryName,
+          );
+
+          subCategoryID = subSubCategories.parent;
+
+          const subCategoryParent = findSubCategorieParent(
+            response.data.categories,
+            subCategoryID,
+          );
+
+          categoryWrapper.insertAdjacentHTML(
+            "beforeend",
+            `
+              <a class="sidebar__category-link">
+                ${subSubCategories.title}
+              </a>
+              <div class="subCategories">
+                ${subCategoryParent.title}
+              </div>
+            `,
+          );
+        }
       } else {
         categoryInfos.map((category) => {
           renderFilters(category);
