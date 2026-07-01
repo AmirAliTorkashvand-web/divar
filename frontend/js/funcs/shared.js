@@ -54,8 +54,14 @@ const getAllSocials = async () => {
   return data;
 };
 
-const getPosts = async (cityID) => {
-  const res = await fetch(`https://divarapi.liara.run/v1/post/?city=${cityID}`);
+const getPosts = async (cityID, categoryID) => {
+  let url = `https://divarapi.liara.run/v1/post/?city=${cityID}`;
+
+  if (categoryID) {
+    url += `&categoryId=${categoryID}`;
+  }
+
+  const res = await fetch(url);
   const data = await res.json();
 
   return data;

@@ -12,12 +12,51 @@ window.categoryClickHandler = (categoryID) => {
 };
 
 window.addEventListener("load", async () => {
+  const findSubCategories = (category, categoryID) => {
+    const urlParam = getUrlParam("category");
+    const subCategoryInfo = category
+      .flatMap((category) => category.subCategories)
+      .find((subCategory) => subCategory.slug === urlParam);
+
+    return subCategoryInfo;
+  };
+
+  const findSubSubCategories = (category, categoryID) => {
+    const urlParam = getUrlParam("category");
+    const subSubCategory = category
+      .flatMap((categories) => categories.subCategories)
+      .flatMap((subCategory) => subCategory.subCategories)
+      .find((item) => item.slug === urlParam);
+
+    return subSubCategory;
+  };
+
+  const findCategoryIdBySlug = (categories) => {
+    const slug = getUrlParam("category");
+
+    const category = categories.find((category) => category.slug === slug);
+    if (category) return category._id;
+
+    const subCategory = findSubCategories(categories);
+    if (subCategory) return subCategory._id;
+
+    const subSubCategory = findSubSubCategories(categories);
+    if (subSubCategory) return subSubCategory._id;
+
+    return null;
+  };
+
   // get all posts
   const cityIds = getCityCookie()?.map((city) => city.id);
   const productWrapper = document.querySelector("#product-wrapper");
 
-  getPosts(cityIds).then((response) => {
+  const response = await getAllCategories();
+  const allCategories = response.data.categories;
+  const categpryType = findCategoryIdBySlug(allCategories);
+  console.log("categoryID:", categpryType);
+  getPosts(cityIds, categpryType).then((response) => {
     productWrapper.innerHTML = "";
+    console.log(response.data.posts)
 
     if (response.data.posts.length > 0) {
       response.data.posts.map((product) => {
@@ -61,25 +100,6 @@ window.addEventListener("load", async () => {
 
   // get all categories and sub categories and filters
   const categoryWrapper = document.querySelector(".sidebar__category-item");
-
-  const findSubCategories = (category, categoryID) => {
-    const urlParam = getUrlParam("category");
-    const subCategoryInfo = category
-      .flatMap((category) => category.subCategories)
-      .find((subCategory) => subCategory.slug === urlParam);
-
-    return subCategoryInfo;
-  };
-
-  const findSubSubCategories = (category, categoryID) => {
-    const urlParam = getUrlParam("category");
-    const subSubCategory = category
-      .flatMap((categories) => categories.subCategories)
-      .flatMap((subCategory) => subCategory.subCategories)
-      .find((item) => item.slug === urlParam);
-
-    return subSubCategory;
-  };
 
   const findSubCategorieParent = (category, categoryID) => {
     const subCategoryInfo = category
