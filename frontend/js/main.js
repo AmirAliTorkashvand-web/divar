@@ -53,10 +53,10 @@ window.addEventListener("load", async () => {
   const response = await getAllCategories();
   const allCategories = response.data.categories;
   const categpryType = findCategoryIdBySlug(allCategories);
-  console.log("categoryID:", categpryType);
-  getPosts(cityIds, categpryType).then((response) => {
+  const searchValue = getUrlParam("q");
+  getPosts(cityIds, categpryType, searchValue).then((response) => {
     productWrapper.innerHTML = "";
-    console.log(response.data.posts)
+    console.log(response.data.posts);
 
     if (response.data.posts.length > 0) {
       response.data.posts.map((product) => {
