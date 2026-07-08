@@ -59,8 +59,8 @@ const getPosts = async (cityID, categoryID, searchValue) => {
 
   if (categoryID) {
     url += `&categoryId=${categoryID}`;
-  } 
-  if(searchValue){
+  }
+  if (searchValue) {
     url += `&search=${searchValue}`;
   }
 
@@ -105,6 +105,17 @@ const getUrlParam = (param) => {
   return urlParam.get(param);
 };
 
+const removeParamFromUrl = (param) => {
+  const url = new URL(window.location);
+
+  console.log("قبل:", url.search);
+
+  url.searchParams.delete(param);
+
+  console.log("بعد:", url.search);
+
+  window.location = url.toString();
+};
 export {
   popularCities,
   setCityCookie,
@@ -116,4 +127,5 @@ export {
   addParamToUrl,
   calcualetRelativeTime,
   getUrlParam,
+  removeParamFromUrl,
 };

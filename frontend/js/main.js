@@ -5,6 +5,7 @@ import {
   getCityCookie,
   getPosts,
   getUrlParam,
+  removeParamFromUrl,
 } from "./funcs/shared.js";
 
 window.categoryClickHandler = (categoryID) => {
@@ -250,6 +251,8 @@ window.addEventListener("load", async () => {
 
   // search in posts
   const inputEl = document.querySelector(".header__form-input");
+  const dropdownEl = document.querySelector(".header__searchbar-dropdown");
+  const crossEl = document.querySelector(".cross-svg");
 
   inputEl.addEventListener("keyup", (event) => {
     event.preventDefault();
@@ -258,5 +261,22 @@ window.addEventListener("load", async () => {
         addParamToUrl("q", event.target.value.trim());
       }
     }
+  });
+  const inputValue = getUrlParam("q");
+  if (inputValue) {
+    inputEl.value = inputValue;
+  }
+  crossEl.addEventListener("mousedown", (event) => {
+    inputEl.value = "";
+    removeParamFromUrl("q");
+  });
+  inputEl.addEventListener("focus", () => {
+    crossEl.classList.add("header__searchbar-dropdown-active");
+    dropdownEl.classList.add("header__searchbar-dropdown-active");
+  });
+
+  inputEl.addEventListener("blur", () => {
+    crossEl.classList.remove("header__searchbar-dropdown-active");
+    dropdownEl.classList.remove("header__searchbar-dropdown-active");
   });
 });

@@ -268,6 +268,17 @@ button {
 .header__searchbar-dropdown-link:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
+.cross-svg {
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  visibility: hidden;
+  cursor: pointer;
+}
+.header__searchbar-dropdown-active {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
 /* End Searchbar Dropdown */
 .header__form {
   height: 3.8rem;
