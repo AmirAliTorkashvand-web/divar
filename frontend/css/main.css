@@ -455,7 +455,7 @@ button {
   width: 100%;
 }
 .sidebar__filter-price select {
-  width: 100%;
+  width: 80%;
 }
 .sidebar__filter-price-wrapper {
   display: flex;

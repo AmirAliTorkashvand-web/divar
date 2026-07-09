@@ -13,6 +13,9 @@ window.categoryClickHandler = (categoryID) => {
 };
 
 window.addEventListener("load", async () => {
+  let posts = null;
+  let backupPosts = null;
+
   const findSubCategories = (category, categoryID) => {
     const urlParam = getUrlParam("category");
     const subCategoryInfo = category
@@ -55,40 +58,39 @@ window.addEventListener("load", async () => {
   const allCategories = response.data.categories;
   const categpryType = findCategoryIdBySlug(allCategories);
   const searchValue = getUrlParam("q");
-  getPosts(cityIds, categpryType, searchValue).then((response) => {
+  const renderPosts = (posts) => {
     productWrapper.innerHTML = "";
-    console.log(response.data.posts);
 
-    if (response.data.posts.length > 0) {
-      response.data.posts.map((product) => {
+    if (posts.length > 0) {
+      posts.forEach((product) => {
         productWrapper.insertAdjacentHTML(
           "beforeend",
           `
-            <div class="col-4">
-              <div class="product-card">
-                  <div class="product-card__right">
-                      <div class="product-card__right-top">
-                          <a class="product-card__link" href="#">${product.title}</a>
-                      </div>
-                      <div class="product-card__right-bottom">
-                          <span class="product-card__condition">${product.dynamicFields?.[0].data}</span>
-                          <span class="product-card__price">${product.price.toLocaleString()} تومان</span>
-                          <span class="product-card__time">${calcualetRelativeTime(product.createdAt)}</span>
-                      </div>
-                  </div>
-                  <div class="product-card__left">
-                      <i class="product-card__icon bi bi-chat"></i>
-                      ${
-                        product.pics.length
-                          ? `<img class="product-card__img img-fluid"
-                                src="https://divarapi.liara.run/${product.pics[0].path}">`
-                          : `<img class="product-card__img img-fluid"
-                                src="../images/main/no product.png">`
-                      }
-                  </div>
+        <div class="col-4">
+          <div class="product-card">
+            <div class="product-card__right">
+              <div class="product-card__right-top">
+                <a class="product-card__link" href="#">${product.title}</a>
+              </div>
+              <div class="product-card__right-bottom">
+                <span class="product-card__condition">${product.dynamicFields?.[0].data}</span>
+                <span class="product-card__price">${product.price.toLocaleString()} تومان</span>
+                <span class="product-card__time">${calcualetRelativeTime(product.createdAt)}</span>
               </div>
             </div>
-          `,
+            <div class="product-card__left">
+              <i class="product-card__icon bi bi-chat"></i>
+              ${
+                product.pics.length
+                  ? `<img class="product-card__img img-fluid"
+                      src="https://divarapi.liara.run/${product.pics[0].path}">`
+                  : `<img class="product-card__img img-fluid"
+                      src="../images/main/no product.png">`
+              }
+            </div>
+          </div>
+        </div>
+        `,
         );
       });
     } else {
@@ -97,7 +99,18 @@ window.addEventListener("load", async () => {
         `<span>آگهی یافت نشد</span>`,
       );
     }
-  });
+  };
+  const loadPosts = async () => {
+    const response = await getPosts(cityIds, categpryType, searchValue);
+
+    console.log(response.data.posts);
+    posts = response.data.posts;
+    backupPosts = [...posts];
+
+    renderPosts(posts);
+  };
+
+  loadPosts();
 
   // get all categories and sub categories and filters
   const categoryWrapper = document.querySelector(".sidebar__category-item");
@@ -278,5 +291,59 @@ window.addEventListener("load", async () => {
   inputEl.addEventListener("blur", () => {
     crossEl.classList.remove("header__searchbar-dropdown-active");
     dropdownEl.classList.remove("header__searchbar-dropdown-active");
+  });
+
+  // photo and exchange and min max filter
+  const photoController = document.querySelector("#photo-contoller");
+  const exchangeController = document.querySelector("#exchange-contoller");
+  const minPrice = document.querySelector(".sidebar__filter-price-input-min");
+  const maxPrice = document.querySelector(".sidebar__filter-price-input-max");
+
+  const filterPosts = (posts) => {
+    let filteredPosts = [...backupPosts];
+
+    if (photoController.checked) {
+      filteredPosts = filteredPosts.filter((post) => post.pics.length > 0);
+    }
+
+    if (exchangeController.checked) {
+      filteredPosts = filteredPosts.filter((post) => post.exchange);
+    }
+
+    const minValue = minPrice.value;
+    const maxValue = maxPrice.value;
+
+    if (minValue !== "default") {
+      const min = Number(minValue);
+
+      if (maxValue !== "default") {
+        const max = Number(maxValue);
+
+        filteredPosts = filteredPosts.filter(
+          (post) => post.price >= min && post.price <= max,
+        );
+      } else {
+        filteredPosts = filteredPosts.filter((post) => post.price >= min);
+      }
+    } else if (maxValue !== "default") {
+      const max = Number(maxValue);
+
+      filteredPosts = filteredPosts.filter((post) => post.price <= max);
+    }
+
+    renderPosts(filteredPosts);
+  };
+
+  minPrice?.addEventListener("change", () => {
+    filterPosts(posts);
+  });
+  maxPrice?.addEventListener("change", () => {
+    filterPosts(posts);
+  });
+  photoController.addEventListener("change", (event) => {
+    filterPosts(posts);
+  });
+  exchangeController.addEventListener("change", (event) => {
+    filterPosts(posts);
   });
 });
