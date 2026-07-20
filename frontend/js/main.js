@@ -2,10 +2,12 @@ import {
   addParamToUrl,
   calcualetRelativeTime,
   getAllCategories,
+  getAllCities,
   getCityCookie,
   getPosts,
   getUrlParam,
   removeParamFromUrl,
+  setCityCookie,
 } from "./funcs/shared.js";
 
 window.categoryClickHandler = (categoryID) => {
@@ -15,6 +17,12 @@ window.categoryClickHandler = (categoryID) => {
 window.addEventListener("load", async () => {
   let posts = null;
   let backupPosts = null;
+  let appliedFIlters = {};
+  window.selectBoxFilterHandler = (value, slug) => {
+    appliedFIlters[slug] = value;
+    console.log({ slug, value });
+    filterPosts(posts);
+  };
 
   const findSubCategories = (category, categoryID) => {
     const urlParam = getUrlParam("category");
@@ -103,7 +111,6 @@ window.addEventListener("load", async () => {
   const loadPosts = async () => {
     const response = await getPosts(cityIds, categpryType, searchValue);
 
-    console.log(response.data.posts);
     posts = response.data.posts;
     backupPosts = [...posts];
 
@@ -162,7 +169,7 @@ window.addEventListener("load", async () => {
                   <span class="sidebar__filter-title">${filter.name}</span>
                 </div>
                 <div class="sidebar__filter-price sidebar__filter-item">
-                  <select name="" id="">
+                  <select name="" id="" class="sidebar__filter-price-input" onChange="selectBoxFilterHandler(event.target.value , '${filter.slug}')">
                     ${createFilterOptions(filterOptions)}
                   </select>
                   
@@ -302,6 +309,16 @@ window.addEventListener("load", async () => {
   const filterPosts = (posts) => {
     let filteredPosts = [...backupPosts];
 
+    for (const slug in appliedFIlters) {
+      console.log("slug -> ", slug);
+
+      filteredPosts = filteredPosts.filter((post) => {
+        return post.dynamicFields.some(
+          (field) => field.slug === slug && field.data === appliedFIlters[slug],
+        );
+      });
+    }
+
     if (photoController.checked) {
       filteredPosts = filteredPosts.filter((post) => post.pics.length > 0);
     }
@@ -345,5 +362,69 @@ window.addEventListener("load", async () => {
   });
   exchangeController.addEventListener("change", (event) => {
     filterPosts(posts);
+  });
+
+  // get city and show modal
+  const headerCityContainer = document.querySelector(".header__country");
+  const headerCity = document.querySelector(".header__country-title");
+  const modalCity = document.querySelector(".country-modal");
+  const closeModalBtn = document.querySelector(".country-modal__btn-footer ");
+  const cityHeader = getCityCookie();
+  let cityName = null;
+
+  if (!cityHeader) {
+    window.location.href = "http://127.0.0.1:5500/frontend/pages/index.html";
+    return;
+  } else {
+    cityName = cityHeader.map((city) => city.name);
+    let cityText = "";
+    if (cityName.length <= 2) {
+      cityText = cityName;
+      console.log(cityName);
+    } else {
+      cityText = `${cityName[0]}، ${cityName[1]} و ${cityName.length - 2} شهر دیگر`;
+      console.log(cityName);
+    }
+
+    headerCity.innerHTML = cityText;
+  }
+
+  headerCityContainer.addEventListener("click", () => {
+    modalCity.classList.add("country-modal--active");
+
+    closeModalBtn.addEventListener("click", () => {
+      modalCity.classList.remove("country-modal--active");
+    });
+
+    getAllCities().then((city) => {
+      city.data.provinces.map((province) => {
+        const cityList = document.querySelector(".country-modal__cities-list");
+        cityList.insertAdjacentHTML(
+          "beforeend",
+          `
+            <li class="country-modal__cities-item">
+                ${province.name}
+                <input class="country-modal__cities-checkbox" type="checkbox"></input>
+            </li>
+          `,
+        );
+      });
+    });
+    cityName.map((city) => {
+      const selectedCityBox = document.querySelector(
+        ".country-modal__selected",
+      );
+      selectedCityBox.insertAdjacentHTML(
+        "beforeend",
+        `
+          <div class="country-modal__selected-item">
+            <span class="country-modal__selected-text">${city}</span>
+            <button class="country-modal__selected-btn">
+              <i class="country-modal__selected-icon bi bi-x"></i>
+            </button>
+          </div>
+        `,
+      );
+    });
   });
 });
