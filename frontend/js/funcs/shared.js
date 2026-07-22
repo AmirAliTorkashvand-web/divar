@@ -116,6 +116,23 @@ const removeParamFromUrl = (param) => {
 
   window.location = url.toString();
 };
+
+const removeCityCookie = (cityName) => {
+  const cities = getCityCookie() || [];
+
+  const updatedCities = cities.filter((city) => city.name !== cityName);
+
+  document.cookie = `city=${encodeURIComponent(
+    JSON.stringify(updatedCities),
+  )}; path=/; max-age=${60 * 60 * 24 * 30}`;
+};
+
+const updateCityCookie = (cities) => {
+  document.cookie = `city=${encodeURIComponent(
+    JSON.stringify(cities),
+  )}; path=/; max-age=${60 * 60 * 24 * 30}`;
+};
+
 export {
   popularCities,
   setCityCookie,
@@ -128,4 +145,6 @@ export {
   calcualetRelativeTime,
   getUrlParam,
   removeParamFromUrl,
+  removeCityCookie,
+  updateCityCookie,
 };

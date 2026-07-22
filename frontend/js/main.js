@@ -6,8 +6,11 @@ import {
   getCityCookie,
   getPosts,
   getUrlParam,
+  popularCities,
+  removeCityCookie,
   removeParamFromUrl,
   setCityCookie,
+  updateCityCookie,
 } from "./funcs/shared.js";
 
 window.categoryClickHandler = (categoryID) => {
@@ -59,13 +62,13 @@ window.addEventListener("load", async () => {
   };
 
   // get all posts
-  const cityIds = getCityCookie()?.map((city) => city.id);
   const productWrapper = document.querySelector("#product-wrapper");
 
   const response = await getAllCategories();
   const allCategories = response.data.categories;
   const categpryType = findCategoryIdBySlug(allCategories);
   const searchValue = getUrlParam("q");
+
   const renderPosts = (posts) => {
     productWrapper.innerHTML = "";
 
@@ -108,16 +111,22 @@ window.addEventListener("load", async () => {
       );
     }
   };
+
   const loadPosts = async () => {
+    const cityIds = getCityCookie()
+      ?.map((city) => city.id)
+      .join("|");
+      console.log(cityIds)
+
     const response = await getPosts(cityIds, categpryType, searchValue);
 
     posts = response.data.posts;
+    console.log(posts)
     backupPosts = [...posts];
 
     renderPosts(posts);
   };
-
-  loadPosts();
+  await loadPosts();
 
   // get all categories and sub categories and filters
   const categoryWrapper = document.querySelector(".sidebar__category-item");
@@ -368,26 +377,106 @@ window.addEventListener("load", async () => {
   const headerCityContainer = document.querySelector(".header__country");
   const headerCity = document.querySelector(".header__country-title");
   const modalCity = document.querySelector(".country-modal");
-  const closeModalBtn = document.querySelector(".country-modal__btn-footer ");
+  const closeModalBtn = document.querySelector(".country-modal__close");
+  const acceptModalBtn = document.querySelector(
+    ".country-modal__accept--active",
+  );
+  const deleteAllCitiesBtn = document.querySelector(".country-modal__btn");
   const cityHeader = getCityCookie();
   let cityName = null;
+  let tempCities = [];
 
-  if (!cityHeader) {
-    window.location.href = "http://127.0.0.1:5500/frontend/pages/index.html";
-    return;
-  } else {
-    cityName = cityHeader.map((city) => city.name);
+  window.addToModalHandler = async (cityId) => {
+    const cityEl = document.querySelector(`#city-${cityId}`);
+    const cityInp = cityEl.querySelector("input");
+    const cityTitle = cityEl.querySelector("span").innerHTML;
+
+    if (cityInp.checked) {
+      if (!tempCities.some((city) => city.name === cityTitle)) {
+        tempCities.push({
+          id: cityId,
+          name: cityTitle,
+        });
+      }
+    } else {
+      tempCities = tempCities.filter((city) => city.name !== cityTitle);
+    }
+    updateModalCities();
+    console.log(tempCities);
+  };
+
+  window.cityDeleteHandler = (cityId) => {
+    tempCities = tempCities.filter((city) => city.id !== cityId);
+    const cityCheckbox = document.querySelector(`#city-${cityId} input`);
+    if (cityCheckbox) {
+      cityCheckbox.checked = false;
+    }
+    updateModalCities();
+  };
+
+  const updateHeaderCity = () => {
     let cityText = "";
+
     if (cityName.length <= 2) {
-      cityText = cityName;
-      console.log(cityName);
+      cityText = cityName.join("، ");
     } else {
       cityText = `${cityName[0]}، ${cityName[1]} و ${cityName.length - 2} شهر دیگر`;
-      console.log(cityName);
     }
 
     headerCity.innerHTML = cityText;
-  }
+  };
+
+  const initCities = () => {
+    if (!cityHeader) {
+      window.location.href = "http://127.0.0.1:5500/frontend/pages/index.html";
+      return;
+    }
+
+    cityName = cityHeader.map((city) => city.name);
+    tempCities = [...cityHeader];
+
+    updateHeaderCity();
+  };
+
+  const updateModalCities = () => {
+    const selectedCityBox = document.querySelector(".country-modal__selected");
+    selectedCityBox.innerHTML = "";
+    tempCities.map((city) => {
+      selectedCityBox.insertAdjacentHTML(
+        "beforeend",
+        `
+          <div class="country-modal__selected-item">
+            <span class="country-modal__selected-text">${city.name}</span>
+            <button class="country-modal__selected-btn" onclick="cityDeleteHandler(${city.id})">
+              <i class="country-modal__selected-icon bi bi-x"></i>
+            </button>
+          </div>
+        `,
+      );
+    });
+  };
+
+  initCities();
+  updateModalCities();
+
+  popularCities().then((city) => {
+    const popularCities = city.data.cities.filter(
+      (town) => town.popular === true,
+    );
+    popularCities.map((province) => {
+      const isChecked = cityName.some((city) => city === province.name);
+      const cityList = document.querySelector(".country-modal__cities-list");
+      cityList.insertAdjacentHTML(
+        "beforeend",
+        `
+          <li class="country-modal__cities-item" id="${"city-" + province.id}">
+              <span>${province.name}</span>
+              <input class="country-modal__cities-checkbox" type="checkbox" onchange="addToModalHandler(${province.id})" ${isChecked ? "checked" : ""} ></input>
+          </li>
+        `,
+      );
+    });
+  });
 
   headerCityContainer.addEventListener("click", () => {
     modalCity.classList.add("country-modal--active");
@@ -396,35 +485,23 @@ window.addEventListener("load", async () => {
       modalCity.classList.remove("country-modal--active");
     });
 
-    getAllCities().then((city) => {
-      city.data.provinces.map((province) => {
-        const cityList = document.querySelector(".country-modal__cities-list");
-        cityList.insertAdjacentHTML(
-          "beforeend",
-          `
-            <li class="country-modal__cities-item">
-                ${province.name}
-                <input class="country-modal__cities-checkbox" type="checkbox"></input>
-            </li>
-          `,
-        );
-      });
+    acceptModalBtn.addEventListener("click", async () => {
+      modalCity.classList.remove("country-modal--active");
+      updateCityCookie(tempCities);
+      cityName = tempCities.map((city) => city.name);
+      updateHeaderCity();
+      await loadPosts();
     });
-    cityName.map((city) => {
-      const selectedCityBox = document.querySelector(
-        ".country-modal__selected",
-      );
-      selectedCityBox.insertAdjacentHTML(
-        "beforeend",
-        `
-          <div class="country-modal__selected-item">
-            <span class="country-modal__selected-text">${city}</span>
-            <button class="country-modal__selected-btn">
-              <i class="country-modal__selected-icon bi bi-x"></i>
-            </button>
-          </div>
-        `,
-      );
+  });
+
+  deleteAllCitiesBtn.addEventListener("click", () => {
+    tempCities = [];
+    const allCheckBoxes = document.querySelectorAll(
+      ".country-modal__cities-checkbox",
+    );
+    allCheckBoxes.forEach((checkbox) => {
+      checkbox.checked = false;
     });
+    updateModalCities();
   });
 });

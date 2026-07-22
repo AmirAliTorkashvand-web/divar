@@ -9,12 +9,14 @@ import {
 const cityClickHandler = (event, city) => {
   event.preventDefault();
   setCityCookie(city);
-  window.location.href = `http://127.0.0.1:5500/frontend/pages/main.html?city=${city.name}`;
+  window.location.href = "http://127.0.0.1:5500/frontend/pages/main.html";
 };
 
-const loadCityPosts = (city) => {
-  if (city) {
-    window.location.href = `http://127.0.0.1:5500/frontend/pages/main.html?city=${city.name}`;
+const loadCityPosts = () => {
+  const cityCookie = getCityCookie();
+
+  if (cityCookie) {
+    window.location.href = "http://127.0.0.1:5500/frontend/pages/main.html";
   }
 };
 
@@ -61,6 +63,7 @@ window.addEventListener("load", async () => {
     );
 
     popularCities.map((city) => {
+      console.log(popularCities);
       cityWrapper.insertAdjacentHTML(
         "beforeend",
         `
