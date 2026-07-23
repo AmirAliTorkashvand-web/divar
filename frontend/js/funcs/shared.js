@@ -89,11 +89,16 @@ const addParamToUrl = (param, value) => {
 const calcualetRelativeTime = (createdTime) => {
   const currentTime = new Date();
   const postTime = new Date(createdTime);
+
   const timeDifference = currentTime - postTime;
-  const hours = Math.floor(timeDifference / (60 * 60 * 1000));
+
+  const minutes = Math.floor(timeDifference / (60 * 1000));
+  const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
 
-  if (hours < 24) {
+  if (minutes < 60) {
+    return `${minutes} دقیقه پیش`;
+  } else if (hours < 24) {
     return `${hours} ساعت پیش`;
   } else {
     return `${days} روز پیش`;
@@ -133,6 +138,13 @@ const updateCityCookie = (cities) => {
   )}; path=/; max-age=${60 * 60 * 24 * 30}`;
 };
 
+const getPost = async (postID) => {
+  const res = await fetch(`https://divarapi.liara.run/v1/post/${postID}`);
+  const data = await res.json();
+
+  return data;
+};
+
 export {
   popularCities,
   setCityCookie,
@@ -147,4 +159,5 @@ export {
   removeParamFromUrl,
   removeCityCookie,
   updateCityCookie,
+  getPost,
 };
