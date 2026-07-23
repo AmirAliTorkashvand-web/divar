@@ -116,12 +116,11 @@ window.addEventListener("load", async () => {
     const cityIds = getCityCookie()
       ?.map((city) => city.id)
       .join("|");
-      console.log(cityIds)
 
     const response = await getPosts(cityIds, categpryType, searchValue);
 
     posts = response.data.posts;
-    console.log(posts)
+
     backupPosts = [...posts];
 
     renderPosts(posts);
@@ -503,5 +502,78 @@ window.addEventListener("load", async () => {
       checkbox.checked = false;
     });
     updateModalCities();
+  });
+
+  // category modal
+  const categoryModalBtn = document.querySelector(".header__category-btn");
+  const overlayHeader = document.querySelector(".overlay-header");
+  const categoryMenu = document.querySelector(".header__category-menu");
+  const categoryContainer = document.querySelector(
+    ".haeder__category-menu-list",
+  );
+  const backToAllPosts = document.querySelector(".header__category-menu-btn");
+
+  backToAllPosts.addEventListener("click", () => {
+    removeParamFromUrl("category")
+  })
+
+  categoryModalBtn.addEventListener("click", () => {
+    categoryMenu.classList.add("header__category-menu--active");
+    overlayHeader.classList.add("overlay-header--active");
+  });
+
+  overlayHeader.addEventListener("click", () => {
+    categoryMenu.classList.remove("header__category-menu--active");
+    overlayHeader.classList.remove("overlay-header--active");
+  });
+
+  getAllCategories().then((res) => {
+    console.log(res.data.categories);
+    res.data.categories.map((category) => {
+      categoryContainer.insertAdjacentHTML(
+        "beforeend",
+        `
+          <li class="header__category-menu-item">
+            <a class="header__category-menu-link" href="#" onclick="categoryClickHandler('${category.slug}')">
+              <div class="header__category-menu-link-right">
+                <i class="header__category-menu-icon bi bi-house"></i>
+                ${category.title}
+              </div>
+              <div class="header__category-menu-link-left">
+                <i
+                  class="header__category-menu-arrow-icon bi bi-chevron-left"
+                ></i>
+              </div>
+            </a>
+            <div class="header__category-dropdown">
+              <div class="row">
+                ${category.subCategories?.map(
+                    (subCategory) =>
+                      `<div class="col-4">
+                    <ul class="header__category-dropdown-list">
+                      <a class="header__category-dropdown-title" href="#" onclick="categoryClickHandler('${subCategory.slug}')">
+                        ${subCategory.title}
+                      </a>
+                      ${subCategory.subCategories?.map(
+                          (subSubCategory) =>
+                            `
+                        <li class="header__category-dropdown-item" onclick="categoryClickHandler('${subSubCategory.slug}')">
+                          <a class="header__category-dropdown-link" href="#">
+                            ${subSubCategory.title}
+                          </a>
+                        </li>
+                        `,
+                        )
+                        .join("")}
+                    </ul>
+                  </div>`,
+                  )
+                  .join("")}
+              </div>
+            </div>
+          </li>
+        `,
+      );
+    });
   });
 });
