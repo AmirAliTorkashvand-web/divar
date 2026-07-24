@@ -145,6 +145,14 @@ const getPost = async (postID) => {
   return data;
 };
 
+const showSwal = (title, text, icon) => {
+  Swal.fire({
+    title: title,
+    text: text,
+    icon: icon,
+  });
+};
+
 export {
   popularCities,
   setCityCookie,
@@ -160,4 +168,5 @@ export {
   removeCityCookie,
   updateCityCookie,
   getPost,
+  showSwal,
 };

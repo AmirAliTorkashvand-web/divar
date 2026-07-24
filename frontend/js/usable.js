@@ -7,6 +7,7 @@ import {
   getUrlParam,
   popularCities,
   removeParamFromUrl,
+  showSwal,
   updateCityCookie,
 } from "./funcs/shared.js";
 
@@ -325,5 +326,186 @@ window.addEventListener("load", async () => {
       checkbox.checked = false;
     });
     updateModalCities();
+  });
+
+  // login modal
+  const loginEl = document.querySelector(".header__left-link");
+  const loginModalEl = document.querySelector(".login-modal");
+  const overlayEl = document.querySelector(".overlay");
+  const loginCloseBtnEl = document.querySelector(".login-modal__header-btn");
+  const acceptPhoneEl = document.querySelector(".login-modal__footer-btn");
+  const phoneNumberInputEl = document.querySelector(".login-modal__input");
+  const loginModalErrorEl = document.querySelector(".step-1-login-form__error");
+  const userNumberEl = document.querySelector(".user_number_notice");
+  const codeInputEl = document.querySelector(".code_input");
+  const loginBtnEl = document.querySelector(".login_btn");
+  const loginCloseBtnStep2El = document.querySelector(
+    ".login-modal__header-btn-step-2",
+  );
+  const loginChangeNumberEl = document.querySelector(".login-change-number");
+  const requestTimer = document.querySelector(".request_timer span");
+  const requestBtn = document.querySelector(".new-request");
+  const step2LoginModalErrorEl = document.querySelector(
+    ".step-2-login-form__error",
+  );
+
+  let timerInterval = null;
+  let phoneNumber = null;
+
+  const startTimer = () => {
+    let time = 30;
+
+    if (timerInterval) {
+      clearInterval(timerInterval);
+    }
+
+    requestBtn.style.display = "none";
+    requestTimer.innerHTML = time;
+
+    timerInterval = setInterval(() => {
+      time--;
+
+      requestTimer.innerHTML = time;
+
+      if (time === 0) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+
+        requestTimer.innerHTML = "";
+        requestBtn.style.display = "block";
+      }
+    }, 1000);
+  };
+
+  const sendCode = async () => {
+    const res = await fetch("https://divarapi.liara.run/v1/auth/send", {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        phone: phoneNumber,
+      }),
+    });
+
+    if (res.ok) {
+      startTimer();
+    }
+  };
+
+  const submitPhoneNumber = async () => {
+    const phoneRegex = RegExp(/^(09)[0-9]{9}$/);
+
+    phoneNumber = phoneNumberInputEl.value.trim();
+
+    const isValidPhoneNumber = phoneRegex.test(phoneNumber);
+
+    if (isValidPhoneNumber) {
+      loginModalErrorEl.innerHTML = "";
+
+      const res = await fetch("https://divarapi.liara.run/v1/auth/send", {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          phone: phoneNumber,
+        }),
+      });
+
+      if (res.ok) {
+        loginModalEl.classList.add("active_step_2");
+
+        userNumberEl.innerHTML = phoneNumber;
+
+        startTimer();
+      } else {
+        loginModalErrorEl.innerHTML = "مشکلی در ارسال کد پیش امده است";
+      }
+    } else {
+      loginModalErrorEl.innerHTML = "شماره تلفن وارد شده معتبر نیست";
+    }
+  };
+
+  requestBtn.addEventListener("click", () => {
+    sendCode();
+  });
+
+  loginChangeNumberEl.addEventListener("click", () => {
+    loginModalEl.classList.remove("active_step_2");
+
+    codeInputEl.value = "";
+
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+    
+    requestTimer.innerHTML = "";
+    requestBtn.style.display = "block";
+  });
+
+  const closeModal = () => {
+    loginModalEl.classList.remove("login-modal--active");
+    loginModalEl.classList.remove("active_step_2");
+    overlayEl.classList.remove("overlay--active");
+  };
+
+  loginBtnEl.addEventListener("click", async () => {
+    const userCode = codeInputEl.value.trim();
+
+    const res = await fetch("https://divarapi.liara.run/v1/auth/verify", {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        phone: phoneNumber,
+        otp: userCode,
+      }),
+    });
+
+    if (res.status === 200) {
+      showSwal("تبریک", "با موفقیت وارد شدید", "success");
+      closeModal();
+    }
+
+    if (res.status === 201) {
+      showSwal("تبریک", "با موفقیت ثبت نام شدید", "success");
+      closeModal();
+    }
+
+    if (res.status === 400) {
+      step2LoginModalErrorEl.innerHTML = "کد وارد شده اشتباه است";
+    }
+  });
+
+
+  loginEl.addEventListener("click", () => {
+    loginModalEl.classList.add("login-modal--active");
+    overlayEl.classList.add("overlay--active");
+  });
+
+  overlayEl.addEventListener("click", () => {
+    closeModal();
+  });
+
+  loginCloseBtnEl.addEventListener("click", () => {
+    closeModal();
+  });
+
+  loginCloseBtnStep2El.addEventListener("click", () => {
+    closeModal();
+  });
+
+  acceptPhoneEl.addEventListener("click", (event) => {
+    event.preventDefault();
+    submitPhoneNumber();
   });
 });

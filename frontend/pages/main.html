@@ -370,48 +370,98 @@
     <!--!==========================================End Country Modal==========================================!-->
 
     <!--!==========================================Login Modal==========================================!-->
-    <section class="login-modal">
-      <div class="login-modal__header">
-        <div class="login-modal__header-wrapper">
-          <span class="login-modal__title">ورود به حساب کاربری</span>
-          <button class="login-modal__header-btn">
-            <i class="login-modal__icon bi bi-x"></i>
+    <div class="login-modal" id="login-modal">
+      <section class="login_modal_step_1">
+        <div class="login-modal__header">
+          <div class="login-modal__header-wrapper">
+            <span class="login-modal__title">ورود به حساب کاربری</span>
+            <button class="login-modal__header-btn">
+              <i class="login-modal__icon bi bi-x"></i>
+            </button>
+          </div>
+        </div>
+        <div class="login-modal__main">
+          <span class="login-modal__main-title"
+            >شماره موبایل خود را وارد کنید.</span
+          >
+          <p class="login-modal__main-notic">
+            قبل از ثبت آگهی، لطفاً وارد حساب خود شوید.
+          </p>
+          <p class="login-modal__main-notic">
+            کد تأیید به این شماره پیامک می‌شود.
+          </p>
+          <div class="login-modal__form-wrapper">
+            <form class="login-modal__form" action="#">
+              <input
+                class="login-modal__input phone_Number_input"
+                placeholder="شماره موبایل"
+              />
+              <span class="step-1-login-form__error"></span>
+            </form>
+            <span class="login-modal__form-text">+98</span>
+          </div>
+          <div class="login-modal__condition">
+            <a class="login-modal__condition-link" href="#"
+              >شرایط استفاده از خدمات</a
+            >
+            <span class="login-modal__condition-text">و</span>
+            <a class="login-modal__condition-link" href="#">حریم خصوصی</a>
+            <span class="login-modal__condition-text">دیوار را میپذیرم.</span>
+          </div>
+        </div>
+        <div class="login-modal__footer">
+          <button class="login-modal__footer-btn submit_phone_number_btn">
+            تایید
           </button>
         </div>
-      </div>
-      <div class="login-modal__main">
-        <span class="login-modal__main-title"
-          >شماره موبایل خود را وارد کنید.</span
-        >
-        <p class="login-modal__main-notic">
-          قبل از ثبت آگهی، لطفاً وارد حساب خود شوید.
-        </p>
-        <p class="login-modal__main-notic">
-          کد تأیید به این شماره پیامک می‌شود.
-        </p>
-        <div class="login-modal__form-wrapper">
-          <form class="login-modal__form" action="#">
-            <input
-              class="login-modal__input"
-              type="text"
-              placeholder="شماره موبایل"
-            />
-          </form>
-          <span class="login-modal__form-text">+98</span>
+      </section>
+      <section class="login_modal_step_2">
+        <div class="login-modal__header">
+          <div class="login-modal__header-wrapper">
+            <span class="login-modal__title">ورود به حساب کاربری</span>
+            <button
+              class="login-modal__header-btn login-modal__header-btn-step-2"
+            >
+              <i class="login-modal__icon bi bi-x"></i>
+            </button>
+          </div>
         </div>
-        <div class="login-modal__condition">
-          <a class="login-modal__condition-link" href="#"
-            >شرایط استفاده از خدمات</a
-          >
-          <span class="login-modal__condition-text">و</span>
-          <a class="login-modal__condition-link" href="#">حریم خصوصی</a>
-          <span class="login-modal__condition-text">دیوار را میپذیرم.</span>
+        <div class="login-modal__main">
+          <span class="login-modal__main-title">کد تأیید را وارد کنید</span>
+          <p class="login-modal__main-notic">
+            کد پیامک‌شده به شمارۀ «
+            <span class="user_number_notice"></span>» را وارد کنید.
+          </p>
+
+          <div class="login-modal__form-wrapper">
+            <form class="login-modal__form" action="#">
+              <input
+                class="login-modal__input code_input"
+                maxlength="4"
+                placeholder="کد تایید 4 رقمی"
+              />
+              <span class="step-2-login-form__error"></span>
+            </form>
+          </div>
+          <div class="login-modal__condition">
+            <span class="login-modal__condition-text login-change-number"
+              >تغییر شماره موبایل</span
+            >
+          </div>
         </div>
-      </div>
-      <div class="login-modal__footer">
-        <button class="login-modal__footer-btn">تایید</button>
-      </div>
-    </section>
+        <div class="login-modal__footer">
+          <button class="login-modal__footer-btn req_new_code_btn">
+            درخواست کد
+          </button>
+          <div class="request_timer">
+            <p class="new-request">درخواست مجدد</p>
+            <span>10</span>
+          </div>
+          <button class="login-modal__footer-btn login_btn">ورود</button>
+        </div>
+      </section>
+      <div class="overlay login_modal_overlay"></div>
+    </div>
     <!--!==========================================End Login Modal==========================================!-->
 
     <!--!==========================================Overlay Modal==========================================!-->
@@ -424,5 +474,6 @@
 
     <script src="../js/main.js" type="module"></script>
     <script src="../js/usable.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </body>
 </html>
