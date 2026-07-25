@@ -2,6 +2,7 @@ import {
   calcualetRelativeTime,
   getAllCategories,
   getCityCookie,
+  getCookie,
   getMe,
   getPost,
   getPosts,
@@ -350,6 +351,7 @@ window.addEventListener("load", async () => {
   const step2LoginModalErrorEl = document.querySelector(
     ".step-2-login-form__error",
   );
+  const userPanelEl = document.querySelector(".header__left-dropdown");
 
   let timerInterval = null;
   let phoneNumber = null;
@@ -495,8 +497,13 @@ window.addEventListener("load", async () => {
   });
 
   loginEl.addEventListener("click", () => {
-    loginModalEl.classList.add("login-modal--active");
-    overlayEl.classList.add("overlay--active");
+    const islogin = getCookie("user");
+    if (islogin) {
+      userPanelEl.classList.toggle("header__left-dropdown--active");
+    } else {
+      loginModalEl.classList.add("login-modal--active");
+      overlayEl.classList.add("overlay--active");
+    }
   });
 
   overlayEl.addEventListener("click", () => {
@@ -517,4 +524,5 @@ window.addEventListener("load", async () => {
   });
 
   getMe();
+
 });
