@@ -2,11 +2,13 @@ import {
   calcualetRelativeTime,
   getAllCategories,
   getCityCookie,
+  getMe,
   getPost,
   getPosts,
   getUrlParam,
   popularCities,
   removeParamFromUrl,
+  setCookie,
   showSwal,
   updateCityCookie,
 } from "./funcs/shared.js";
@@ -444,7 +446,7 @@ window.addEventListener("load", async () => {
       clearInterval(timerInterval);
       timerInterval = null;
     }
-    
+
     requestTimer.innerHTML = "";
     requestBtn.style.display = "block";
   });
@@ -471,13 +473,19 @@ window.addEventListener("load", async () => {
       }),
     });
 
-    if (res.status === 200) {
-      showSwal("تبریک", "با موفقیت وارد شدید", "success");
-      closeModal();
-    }
+    const user = await res.json();
 
-    if (res.status === 201) {
-      showSwal("تبریک", "با موفقیت ثبت نام شدید", "success");
+    if (res.status === 200 || res.status === 201) {
+      const userToken = user.data.token;
+
+      setCookie("user", userToken, 30);
+
+      showSwal(
+        "تبریک",
+        res.status === 200 ? "با موفقیت وارد شدید" : "با موفقیت ثبت نام شدید",
+        "success",
+      );
+
       closeModal();
     }
 
@@ -485,7 +493,6 @@ window.addEventListener("load", async () => {
       step2LoginModalErrorEl.innerHTML = "کد وارد شده اشتباه است";
     }
   });
-
 
   loginEl.addEventListener("click", () => {
     loginModalEl.classList.add("login-modal--active");
@@ -508,4 +515,6 @@ window.addEventListener("load", async () => {
     event.preventDefault();
     submitPhoneNumber();
   });
+
+  getMe();
 });

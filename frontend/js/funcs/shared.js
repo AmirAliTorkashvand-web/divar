@@ -139,9 +139,14 @@ const updateCityCookie = (cities) => {
 };
 
 const getPost = async (postID) => {
-  const res = await fetch(`https://divarapi.liara.run/v1/post/${postID}`);
+  const res = await fetch(`https://divarapi.liara.run/v1/post/${postID}`, {
+    headers: getToken()
+      ? {
+          Authorization: `Bearer ${getToken()}`,
+        }
+      : {},
+  });
   const data = await res.json();
-
   return data;
 };
 
@@ -151,6 +156,38 @@ const showSwal = (title, text, icon) => {
     text: text,
     icon: icon,
   });
+};
+
+const setCookie = (name, value, days) => {
+  const date = new Date();
+
+  date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+
+  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${date.toUTCString()}; path=/`;
+};
+
+const getCookie = (name) => {
+  const cookies = document.cookie.split("; ");
+
+  const cookie = cookies.find((item) => item.startsWith(`${name}=`));
+
+  return cookie ? decodeURIComponent(cookie.split("=")[1]) : null;
+};
+
+const getToken = () => {
+  const userToken = getCookie("user");
+  return userToken;
+};
+
+const getMe = async () => {
+  const res = await fetch("https://divarapi.liara.run/v1/auth/me", {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+  const data = await res.json();
+
+  return res.status === 200 ? true : false;
 };
 
 export {
@@ -169,4 +206,8 @@ export {
   updateCityCookie,
   getPost,
   showSwal,
+  setCookie,
+  getCookie,
+  getMe,
+  getToken,
 };

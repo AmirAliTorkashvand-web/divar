@@ -518,6 +518,7 @@ button {
   font-size: var(--font-size-md);
   transition: var(--transition);
   padding: 1rem;
+  position: relative;
 }
 .product-preview__input:focus {
   border: 1px solid var(--primary-color);
@@ -541,8 +542,6 @@ button {
 }
 .product-preview__shop-right {
   display: flex;
-}
-.product-preview__shop-right-right {
 }
 .product-preview__shop-img {
   width: 6.4rem;
