@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ثبت آگهی در دیوار</title>
+    <link rel="stylesheet" href="../vendor/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" href="../vendor/bootstrap_icon/bootstraicon.css" />
+    <link rel="stylesheet" href="./../css/share copy.css" />
+    <link rel="stylesheet" href="./../css/new.css" />
+  </head>
+
+  <body>
+    <!--!==========================================Header==========================================!-->
+    <header class="header">
+      <div class="container-fluid">
+        <div class="header__wrapper">
+          <div class="header__right">
+            <a class="header__logo-link" href="/pages/posts.html">
+              <img
+                class="header__logo-img"
+                src="../images/header/logo.svg"
+                alt="logo"
+              />
+            </a>
+            <button class="header__country">
+              <i class="header__country-icon bi bi-geo-alt"></i>
+              <span class="header__country-title"></span>
+            </button>
+          </div>
+          <div class="header__left">
+            <a class="header__left-link" href="#">
+              <i class="header__left-icon bi bi-person"></i>
+              دیوار من
+            </a>
+            <div class="header__left-dropdown">
+              <ul class="header__left-dropdown-list">
+                <li class="header__left-dropdown-item">
+                  <a class="header__left-dropdown-link" href="#">
+                    <i
+                      class="header__left-dropdown-icon bi bi-box-arrow-in-left"
+                    ></i>
+                    ورود
+                  </a>
+                </li>
+                <li class="header__left-dropdown-item">
+                  <a class="header__left-dropdown-link" href="#">
+                    <i class="header__left-dropdown-icon bi bi-journal"></i>
+                    یادداشت ها
+                  </a>
+                </li>
+                <li class="header__left-dropdown-item">
+                  <a class="header__left-dropdown-link" href="#">
+                    <i
+                      class="header__left-dropdown-icon bi bi-clock-history"
+                    ></i>
+                    بازدید های اخیر
+                  </a>
+                </li>
+                <li class="header__left-dropdown-item">
+                  <a class="header__left-dropdown-link" href="#">
+                    <i class="header__left-dropdown-icon bi bi-shop"></i>
+                    دیوار برای کسب و کارها
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!--!==========================================End Header==========================================!-->
+
+    <!--!===========================================Main==========================================!-->
+    <main class="main">
+      <div class="container">
+        <p class="new_title">چه چیزی آگهی می‌کنید؟</p>
+        <p class="select_category_title">
+          با کلیک در کادر زیر، دستهٔ آگهی را انتخاب کنید.
+        </p>
+        <div id="show-categoies" class="box show-categoies active">
+          <div>
+            <p>دیدن تمام دسته‌های دیوار</p>
+          </div>
+          <i class="bi bi-chevron-left"></i>
+        </div>
+
+        <div id="categories-container">
+          <div class="guide" id="guide-container">
+            <p>نمایش راهنمای دسته‌بندی</p>
+            <label class="switch">
+              <input
+                id="description-checkbox"
+                class="icon-controll"
+                type="checkbox"
+              />
+              <span class="slider round"></span>
+            </label>
+          </div>
+          <button class="back-category-btn">بازگشت به مرحله قبلی</button>
+          <div class="box-container"></div>
+
+          <section id="categories"></section>
+        </div>
+      </div>
+    </main>
+    <!--!==========================================End Main==========================================!-->
+
+    <!--!==========================================Login Modal==========================================!-->
+    <div class="login-modal" id="login-modal">
+      <section class="login_modal_step_1">
+        <div class="login-modal__header">
+          <div class="login-modal__header-wrapper">
+            <span class="login-modal__title">ورود به حساب کاربری</span>
+            <button class="login-modal__header-btn">
+              <i class="login-modal__icon bi bi-x"></i>
+            </button>
+          </div>
+        </div>
+        <div class="login-modal__main">
+          <span class="login-modal__main-title"
+            >شماره موبایل خود را وارد کنید.</span
+          >
+          <p class="login-modal__main-notic">
+            قبل از ثبت آگهی، لطفاً وارد حساب خود شوید.
+          </p>
+          <p class="login-modal__main-notic">
+            کد تأیید به این شماره پیامک می‌شود.
+          </p>
+          <div class="login-modal__form-wrapper">
+            <form class="login-modal__form" action="#">
+              <input
+                class="login-modal__input phone_Number_input"
+                placeholder="شماره موبایل"
+              />
+              <span class="step-1-login-form__error"></span>
+            </form>
+            <span class="login-modal__form-text">+98</span>
+          </div>
+          <div class="login-modal__condition">
+            <a class="login-modal__condition-link" href="#"
+              >شرایط استفاده از خدمات</a
+            >
+            <span class="login-modal__condition-text">و</span>
+            <a class="login-modal__condition-link" href="#">حریم خصوصی</a>
+            <span class="login-modal__condition-text">دیوار را میپذیرم.</span>
+          </div>
+        </div>
+        <div class="login-modal__footer">
+          <button class="login-modal__footer-btn submit_phone_number_btn">
+            تایید
+          </button>
+        </div>
+      </section>
+      <section class="login_modal_step_2">
+        <div class="login-modal__header">
+          <div class="login-modal__header-wrapper">
+            <span class="login-modal__title">ورود به حساب کاربری</span>
+            <button
+              class="login-modal__header-btn login-modal__header-btn-step-2"
+            >
+              <i class="login-modal__icon bi bi-x"></i>
+            </button>
+          </div>
+        </div>
+        <div class="login-modal__main">
+          <span class="login-modal__main-title">کد تأیید را وارد کنید</span>
+          <p class="login-modal__main-notic">
+            کد پیامک‌شده به شمارۀ «
+            <span class="user_number_notice"></span>» را وارد کنید.
+          </p>
+
+          <div class="login-modal__form-wrapper">
+            <form class="login-modal__form" action="#">
+              <input
+                class="login-modal__input code_input"
+                maxlength="4"
+                placeholder="کد تایید 4 رقمی"
+              />
+              <span class="step-2-login-form__error"></span>
+            </form>
+          </div>
+          <div class="login-modal__condition">
+            <span class="login-modal__condition-text login-change-number"
+              >تغییر شماره موبایل</span
+            >
+          </div>
+        </div>
+        <div class="login-modal__footer">
+          <button class="login-modal__footer-btn req_new_code_btn">
+            درخواست کد
+          </button>
+          <div class="request_timer">
+            <p class="new-request">درخواست مجدد</p>
+            <span>10</span>
+          </div>
+          <button class="login-modal__footer-btn login_btn">ورود</button>
+        </div>
+      </section>
+      <div class="overlay login_modal_overlay"></div>
+    </div>
+    <!--!==========================================End Login Modal==========================================!-->
+
+    <!--!==========================================Overlay Modal==========================================!-->
+    <section class="overlay"></section>
+    <!--!==========================================End Overlay Modal==========================================!-->
+
+    <!--!==========================================Country Modal==========================================!-->
+    <section class="country-modal">
+      <div class="country-modal__header">
+        <div class="country-modal__header-wrapper">
+          <div class="country-modal__title-wrapper">
+            <span class="country-modal__title">انتخاب شهر</span>
+            <button class="country-modal__btn">حذف همه</button>
+          </div>
+          <div class="country-modal__selected"></div>
+          <div class="country-modal__searchbar">
+            <form class="country-modal__form">
+              <input
+                class="country-modal__input"
+                type="text"
+                placeholder="جستجو در شهرها"
+              />
+              <i class="country-modal__icon bi bi-search"></i>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="country-modal__cities">
+        <ul class="country-modal__cities-list"></ul>
+      </div>
+      <div class="country-modal__footer">
+        <div class="country-modal__footer-wrapper">
+          <button class="country-modal__btn-footer country-modal__close">
+            انصراف
+          </button>
+          <button
+            class="country-modal__btn-footer country-modal__accept--active"
+          >
+            تایید
+          </button>
+        </div>
+      </div>
+    </section>
+    <!--!==========================================End Country Modal==========================================!-->
+  </body>
+
+  <script src="../js/usable.js" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="../js/new.js" type="module"></script>
+</html>

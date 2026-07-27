@@ -28,24 +28,27 @@ window.addEventListener("load", async () => {
     window.location.href = `http://127.0.0.1:5500/frontend/pages/main.html?category=${categoryID}`;
   };
 
-  backToAllPosts.addEventListener("click", () => {
+  backToAllPosts?.addEventListener("click", () => {
     removeParamFromUrl("category");
   });
 
-  categoryModalBtn.addEventListener("click", () => {
+  categoryModalBtn?.addEventListener("click", () => {
     categoryMenu.classList.add("header__category-menu--active");
     overlayHeader.classList.add("overlay-header--active");
   });
 
-  overlayHeader.addEventListener("click", () => {
+  overlayHeader?.addEventListener("click", () => {
     categoryMenu.classList.remove("header__category-menu--active");
     overlayHeader.classList.remove("overlay-header--active");
   });
 
-  categoryContainer.innerHTML = "";
+  if (categoryContainer) {
+    categoryContainer.innerHTML = "";
+  }
+
   getAllCategories().then((res) => {
     res.data.categories.map((category) => {
-      categoryContainer.insertAdjacentHTML(
+      categoryContainer?.insertAdjacentHTML(
         "beforeend",
         `
           <li class="header__category-menu-item">
@@ -249,7 +252,9 @@ window.addEventListener("load", async () => {
       cityText = `${cityName[0]}، ${cityName[1]} و ${cityName.length - 2} شهر دیگر`;
     }
 
-    headerCity.innerHTML = cityText;
+    if (headerCity) {
+      headerCity.innerHTML = cityText;
+    }
   };
 
   const initCities = () => {
@@ -266,9 +271,11 @@ window.addEventListener("load", async () => {
 
   const updateModalCities = () => {
     const selectedCityBox = document.querySelector(".country-modal__selected");
-    selectedCityBox.innerHTML = "";
+    if (selectedCityBox) {
+      selectedCityBox.innerHTML = "";
+    }
     tempCities.map((city) => {
-      selectedCityBox.insertAdjacentHTML(
+      selectedCityBox?.insertAdjacentHTML(
         "beforeend",
         `
           <div class="country-modal__selected-item">
@@ -292,7 +299,7 @@ window.addEventListener("load", async () => {
     popularCities.map((province) => {
       const isChecked = cityName.some((city) => city === province.name);
       const cityList = document.querySelector(".country-modal__cities-list");
-      cityList.insertAdjacentHTML(
+      cityList?.insertAdjacentHTML(
         "beforeend",
         `
           <li class="country-modal__cities-item" id="${"city-" + province.id}">
@@ -304,7 +311,7 @@ window.addEventListener("load", async () => {
     });
   });
 
-  headerCityContainer.addEventListener("click", () => {
+  headerCityContainer?.addEventListener("click", () => {
     modalCity.classList.add("country-modal--active");
 
     closeModalBtn.addEventListener("click", () => {
@@ -320,7 +327,7 @@ window.addEventListener("load", async () => {
     });
   });
 
-  deleteAllCitiesBtn.addEventListener("click", () => {
+  deleteAllCitiesBtn?.addEventListener("click", () => {
     tempCities = [];
     const allCheckBoxes = document.querySelectorAll(
       ".country-modal__cities-checkbox",
@@ -435,11 +442,11 @@ window.addEventListener("load", async () => {
     }
   };
 
-  requestBtn.addEventListener("click", () => {
+  requestBtn?.addEventListener("click", () => {
     sendCode();
   });
 
-  loginChangeNumberEl.addEventListener("click", () => {
+  loginChangeNumberEl?.addEventListener("click", () => {
     loginModalEl.classList.remove("active_step_2");
 
     codeInputEl.value = "";
@@ -459,7 +466,7 @@ window.addEventListener("load", async () => {
     overlayEl.classList.remove("overlay--active");
   };
 
-  loginBtnEl.addEventListener("click", async () => {
+  loginBtnEl?.addEventListener("click", async () => {
     const userCode = codeInputEl.value.trim();
 
     const res = await fetch("https://divarapi.liara.run/v1/auth/verify", {
@@ -496,8 +503,8 @@ window.addEventListener("load", async () => {
     }
   });
 
+  const islogin = getCookie("user");
   loginEl.addEventListener("click", () => {
-    const islogin = getCookie("user");
     if (islogin) {
       userPanelEl.classList.toggle("header__left-dropdown--active");
     } else {
@@ -506,23 +513,33 @@ window.addEventListener("load", async () => {
     }
   });
 
-  overlayEl.addEventListener("click", () => {
+  overlayEl?.addEventListener("click", () => {
     closeModal();
   });
 
-  loginCloseBtnEl.addEventListener("click", () => {
+  loginCloseBtnEl?.addEventListener("click", () => {
     closeModal();
   });
 
-  loginCloseBtnStep2El.addEventListener("click", () => {
+  loginCloseBtnStep2El?.addEventListener("click", () => {
     closeModal();
   });
 
-  acceptPhoneEl.addEventListener("click", (event) => {
+  acceptPhoneEl?.addEventListener("click", (event) => {
     event.preventDefault();
     submitPhoneNumber();
   });
 
   getMe();
 
+  //new post
+  const newPostBtnEl = document.querySelector(".header__left-btn");
+  newPostBtnEl?.addEventListener("click", () => {
+    if (islogin) {
+      location.href = "/frontend/pages/new.html";
+    } else {
+      loginModalEl.classList.add("login-modal--active");
+      overlayEl.classList.add("overlay--active");
+    }
+  });
 });
