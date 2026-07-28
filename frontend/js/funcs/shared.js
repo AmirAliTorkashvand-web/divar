@@ -190,6 +190,12 @@ const getMe = async () => {
   return res.status === 200 ? true : false;
 };
 
+const getAllSubCategories = async () => {
+  const res = await fetch("https://divarapi.liara.run/v1/category/sub");
+  const data = await res.json();
+  return data;
+};
+
 export {
   popularCities,
   setCityCookie,
@@ -210,4 +216,5 @@ export {
   getCookie,
   getMe,
   getToken,
+  getAllSubCategories,
 };

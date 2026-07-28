@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../vendor/bootstrap/bootstrap.css" />
     <link rel="stylesheet" href="../vendor/bootstrap_icon/bootstraicon.css" />
     <link rel="stylesheet" href="../css/registerPost.css" />
-    <link rel="stylesheet" href="../css/share copy.css">
+    <link rel="stylesheet" href="../css/share copy.css" />
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -83,20 +83,15 @@
       <p class="category-title">ثبت آگهی</p>
       <div class="category_details d-flex justify-content-between">
         <p>کنسول، بازی ویدئویی و آنلاین</p>
-        <img src="../images/main/partners_1.svg" alt="">
+        <img src="../images/main/partners_1.svg" alt="" />
         <button>تغییر دسته‌بندی</button>
       </div>
       <div class="groups">
         <div class="group">
           <p class="title">شهر</p>
-          <label class="select" for="slct">
+          <label class="select select-city" for="slct">
             <select id="slct" required="required">
-              <option value disabled="disabled" selected="selected">
-                مشهد
-              </option>
-              <option value="#">شیراز</option>
-              <option value="#">تهران</option>
-              <option value="#">اصفهان</option>
+              <option value="">انتخاب کنید</option>
             </select>
             <svg>
               <use xlink:href="#select-arrow-down"></use>
@@ -111,12 +106,8 @@
         <div class="group">
           <p class="title">محله</p>
           <label class="select" for="slct">
-            <select id="slct" required="required">
-              <option value disabled="disabled" selected="selected">
-                فردوسی
-              </option>
-              <option value="#">ریاضی</option>
-              <option value="#">نظام اباد</option>
+            <select id="slct-neighbour" required="required">
+              <option value="">انتخاب کنید</option>
             </select>
             <svg>
               <use xlink:href="#select-arrow-down"></use>
@@ -130,70 +121,48 @@
         </div>
       </div>
       <div>
-        <p class="title">موقعیت مکانی آگهی</p>
+        <p class="field-title">موقعیت مکانی آگهی</p>
         <div id="map"></div>
+        <div class="map-controll">
+          <p>موقعیت دقیق نمایش داده نشود</p>
+          <label class="switch">
+            <input class="icon-controll" type="checkbox" />
+            <span class="slider round"></span>
+          </label>
+        </div>
       </div>
       <div class="uploader">
         <p class="title">عکس آگهی</p>
         <p>افزودنِ عکس بازدید آگهی شما را تا سه برابر افزایش می‌دهد.</p>
 
-        <div class="uploader-box">
-          <i class="bi bi-image"></i>
-          <i class="bi bi-plus-circle-fill"></i>
-          <input type="file" />
+        <div class="uploader-container d-flex align-items-center">
+          <div class="uploader-box">
+            <i class="bi bi-image"></i>
+            <i class="bi bi-plus-circle-fill"></i>
+            <input type="file" />
+          </div>
+          <div class="uploaded-images">
+            <div class="box-img d-flex align-items-center"></div>
+          </div>
         </div>
         <span>تعداد عکس‌های انتخاب شده نباید بیشتر از 10 باشد.</span>
       </div>
       <div class="groups">
         <div class="group">
-          <p class="title">متراژ</p>
-          <input type="text" value="500" />
-          <p>500 متر</p>
-        </div>
-        <div class="group">
           <p class="title">قیمت کل</p>
-          <input type="text" value="12232443" />
-          <p>122,342,443 تومان</p>
+          <input type="text" id="price" inputmode="numeric" />
+          <p class="price-result"></p>
         </div>
-        <div class="group">
-          <p class="title">تعداد اتاق</p>
-          <label class="select" for="slct">
-            <select id="slct" required="required">
-              <option value disabled="disabled" selected="selected">دو</option>
-              <option value="#">سه</option>
-              <option value="#">چهار</option>
-              <option value="#">پنج</option>
-            </select>
-            <svg>
-              <use xlink:href="#select-arrow-down"></use>
-            </svg>
+        <div class="group exchange-group">
+          <label class="radio-item">
+            <input type="radio" name="exchange" value="true" />
+            <span>معاوضه می‌کنم</span>
           </label>
-          <svg class="sprites">
-            <symbol id="select-arrow-down" viewbox="0 0 10 6">
-              <polyline points="1 1 5 5 9 1"></polyline>
-            </symbol>
-          </svg>
-        </div>
-        <div class="group">
-          <p class="title">سال ساخت</p>
-          <label class="select" for="slct">
-            <select id="slct" required="required">
-              <option value disabled="disabled" selected="selected">
-                1402
-              </option>
-              <option value="#">1401</option>
-              <option value="#">1400</option>
-              <option value="#">1399</option>
-            </select>
-            <svg>
-              <use xlink:href="#select-arrow-down"></use>
-            </svg>
+
+          <label class="radio-item">
+            <input type="radio" name="exchange" value="false" />
+            <span>معاوضه نمی‌کنم</span>
           </label>
-          <svg class="sprites">
-            <symbol id="select-arrow-down" viewbox="0 0 10 6">
-              <polyline points="1 1 5 5 9 1"></polyline>
-            </symbol>
-          </svg>
         </div>
       </div>
       <div class="groups">
@@ -202,7 +171,7 @@
           <span
             >در عنوان آگهی به موارد مهمی مانند نوع ملک و متراژ اشاره کنید.
           </span>
-          <input type="text" value="فروش مغازه" />
+          <input type="text" class="post-title" />
         </div>
 
         <div class="group">
@@ -211,176 +180,21 @@
             >در توضیحات آگهی به مواردی مانند شرایط فروش، جزئیات و ویژگی‌های قابل
             توجه، دسترسی‌های محلی و موقعیت قرارگیری ملک اشاره کنید.</span
           >
-          <textarea id cols="30" rows="8" placeholder="فروش مغازه"> </textarea>
+          <textarea
+            class="post-description"
+            cols="30"
+            rows="8"
+            placeholder="فروش مغازه"
+          >
+          </textarea>
         </div>
       </div>
       <div class="post_controll">
         <button>انصراف</button>
-        <button>ارسال آگهی</button>
+        <button class="submit-btn">ارسال آگهی</button>
       </div>
     </main>
     <!--!==========================================End Main==========================================!-->
-
-    <!--!==========================================city Modal==========================================!-->
-    <section class="city-modal">
-      <div class="city-modal__header">
-        <div class="city-modal__header-wrapper">
-          <div class="city-modal__title-wrapper">
-            <span class="city-modal__title">انتخاب شهر</span>
-            <button class="city-modal__btn">حذف همه</button>
-          </div>
-          <div class="city-modal__selected">
-            <div class="city-modal__selected-item">
-              <span class="city-modal__selected-text">اصفهان</span>
-              <button class="city-modal__selected-btn">
-                <i class="city-modal__selected-icon bi bi-x"></i>
-              </button>
-            </div>
-            <div class="city-modal__selected-item">
-              <span class="city-modal__selected-text">اصفهان</span>
-              <button class="city-modal__selected-btn">
-                <i class="city-modal__selected-icon bi bi-x"></i>
-              </button>
-            </div>
-            <div class="city-modal__selected-item">
-              <span class="city-modal__selected-text">اصفهان</span>
-              <button class="city-modal__selected-btn">
-                <i class="city-modal__selected-icon bi bi-x"></i>
-              </button>
-            </div>
-            <div class="city-modal__selected-item">
-              <span class="city-modal__selected-text">اصفهان</span>
-              <button class="city-modal__selected-btn">
-                <i class="city-modal__selected-icon bi bi-x"></i>
-              </button>
-            </div>
-            <div class="city-modal__selected-item">
-              <span class="city-modal__selected-text">اصفهان</span>
-              <button class="city-modal__selected-btn">
-                <i class="city-modal__selected-icon bi bi-x"></i>
-              </button>
-            </div>
-            <div class="city-modal__selected-item">
-              <span class="city-modal__selected-text">اصفهان</span>
-              <button class="city-modal__selected-btn">
-                <i class="city-modal__selected-icon bi bi-x"></i>
-              </button>
-            </div>
-          </div>
-          <div class="city-modal__searchbar">
-            <form class="city-modal__form">
-              <input
-                class="city-modal__input"
-                type="text"
-                placeholder="جستجو در شهرها"
-              />
-              <i class="city-modal__icon bi bi-search"></i>
-            </form>
-          </div>
-        </div>
-      </div>
-      <div class="city-modal__cities">
-        <!-- <ul class="city-modal__cities-list">
-                <li class="city-modal__cities-item">
-                    اصفهان
-                    <i class="city-modal__cities-icon bi bi-chevron-left"></i>
-                </li>
-                <li class="city-modal__cities-item">
-                    اصفهان
-                    <i class="city-modal__cities-icon bi bi-chevron-left"></i>
-                </li>
-                <li class="city-modal__cities-item">
-                    اصفهان
-                    <i class="city-modal__cities-icon bi bi-chevron-left"></i>
-                </li>
-                <li class="city-modal__cities-item">
-                    اصفهان
-                    <i class="city-modal__cities-icon bi bi-chevron-left"></i>
-                </li>
-                <li class="city-modal__cities-item">
-                    اصفهان
-                    <i class="city-modal__cities-icon bi bi-chevron-left"></i>
-                </li>
-                <li class="city-modal__cities-item">
-                    اصفهان
-                    <i class="city-modal__cities-icon bi bi-chevron-left"></i>
-                </li>
-                <li class="city-modal__cities-item">
-                    اصفهان
-                    <i class="city-modal__cities-icon bi bi-chevron-left"></i>
-                </li>
-                <li class="city-modal__cities-item">
-                    اصفهان
-                    <i class="city-modal__cities-icon bi bi-chevron-left"></i>
-                </li>
-                <li class="city-modal__cities-item">
-                    اصفهان
-                    <i class="city-modal__cities-icon bi bi-chevron-left"></i>
-                </li>
-                <li class="city-modal__cities-item">
-                    اصفهان
-                    <i class="city-modal__cities-icon bi bi-chevron-left"></i>
-                </li>
-                <li class="city-modal__cities-item">
-                    اصفهان
-                    <i class="city-modal__cities-icon bi bi-chevron-left"></i>
-                </li>
-                <li class="city-modal__cities-item">
-                    اصفهان
-                    <i class="city-modal__cities-icon bi bi-chevron-left"></i>
-                </li>
-            </ul> -->
-        <!-- <ul class="city-modal__cities-list">
-                <li class="city-modal__cities-item">
-                   <i class="city-modal__cities-arrow-icon bi bi-arrow-right"></i> 
-                    همه شهر ها
-                </li>
-                <li class="city-modal__cities-item">
-                    اصفهان
-                   <input class="city-modal__cities-checkbox" type="checkbox"></input>
-                </li>
-                <li class="city-modal__cities-item">
-                    اصفهان
-                   <input class="city-modal__cities-checkbox" type="checkbox"></input>
-                </li>
-                <li class="city-modal__cities-item">
-                    اصفهان
-                   <input class="city-modal__cities-checkbox" type="checkbox"></input>
-                </li>
-                <li class="city-modal__cities-item">
-                    اصفهان
-                   <input class="city-modal__cities-checkbox" type="checkbox"></input>
-                </li>
-                <li class="city-modal__cities-item">
-                    اصفهان
-                   <input class="city-modal__cities-checkbox" type="checkbox"></input>
-                </li>
-                <li class="city-modal__cities-item">
-                    اصفهان
-                   <input class="city-modal__cities-checkbox" type="checkbox"></input>
-                </li>
-                <li class="city-modal__cities-item">
-                    اصفهان
-                   <input class="city-modal__cities-checkbox" type="checkbox"></input>
-                </li>
-                <li class="city-modal__cities-item">
-                    اصفهان
-                   <input class="city-modal__cities-checkbox" type="checkbox"></input>
-                </li>
-            </ul> -->
-      </div>
-      <div class="city-modal__footer">
-        <div class="city-modal__footer-wrapper">
-          <button class="city-modal__btn-footer city-modal__close">
-            انصراف
-          </button>
-          <button class="city-modal__btn-footer city-modal__accept--active">
-            تایید
-          </button>
-        </div>
-      </div>
-    </section>
-    <!--!==========================================End city Modal==========================================!-->
 
     <section class="country-modal">
       <div class="country-modal__header">
@@ -429,5 +243,6 @@
     ></script>
     <script src="../js/registerPost.js" type="module"></script>
     <script src="../js/usable.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </body>
 </html>

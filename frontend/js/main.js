@@ -71,6 +71,7 @@ window.addEventListener("load", async () => {
   const renderPosts = (posts) => {
     productWrapper.innerHTML = "";
 
+    console.log(posts);
     if (posts.length > 0) {
       posts.forEach((product) => {
         productWrapper.insertAdjacentHTML(
