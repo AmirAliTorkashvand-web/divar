@@ -18,7 +18,8 @@ window.addEventListener("load", async () => {
   const postDescriptionEl = document.querySelector(".post-description");
   const groupsEl = document.querySelector(".groups");
   const mapIconControllEl = document.querySelector(".icon-controll");
-  const submitBtn = document.querySelector(".submit-btn");
+  const changeCategoryBtnEl = document.querySelector(".change-category")
+  const submitBtnEl = document.querySelector(".submit-btn");
   const exchangeEls = document.querySelectorAll('input[name="exchange"]');
   const categorySlug = getUrlParam("category");
   const allSubcategories = await getAllSubCategories();
@@ -226,6 +227,10 @@ window.addEventListener("load", async () => {
     }
   });
 
+  changeCategoryBtnEl.addEventListener("click" , () => {
+    location.href = "/frontend/pages/new.html";
+  })
+
   categoryNameEl.innerHTML = subCategory.title;
 
   const validateCategoryFields = () => {
@@ -291,7 +296,7 @@ window.addEventListener("load", async () => {
     return true;
   };
 
-  submitBtn.addEventListener("click", async (event) => {
+  submitBtnEl.addEventListener("click", async (event) => {
     event.preventDefault();
     const isValid = validatePost();
     if (!isValid) return;
