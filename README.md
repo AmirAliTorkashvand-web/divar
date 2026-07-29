@@ -73,7 +73,9 @@ During this project I practiced and improved my skills in:
 <img width="1900" height="675" alt="127 0 0 1_5500_frontend_pages_main html_category=personal_items" src="https://github.com/user-attachments/assets/9a985a82-6007-4b30-9c9f-0412b4eb567b" />
 <img width="1900" height="1830" alt="127 0 0 1_5500_frontend_pages_product html_post=693aa76f085b6918bdf010b0" src="https://github.com/user-attachments/assets/a1911a5c-81db-496b-a261-cd3854269920" />
 <img width="1900" height="764" alt="127 0 0 1_5500_frontend_pages_userPanel_verify html" src="https://github.com/user-attachments/assets/1ef394b0-70b1-42f9-8e87-32b71bd01cc3" />
-<img width="1900" height="1225" alt="127 0 0 1_5500_frontend_pages_main html (2)" src="https://github.com/user-attachments/assets/d72170e3-18ab-403a-beb5-f6a4bf4960b8" />
+<img width="1900" height="1225" alt="127 0 0 1_5500_frontend_pages_main html (5)" src="https://github.com/user-attachments/assets/340221bc-4c6d-46cf-ab78-5d5ec41725bf" />
+<img width="1900" height="1225" alt="127 0 0 1_5500_frontend_pages_main html (6)" src="https://github.com/user-attachments/assets/8a31d7a3-5bf0-48a8-9640-a436707cf367" />
+<img width="1900" height="1225" alt="127 0 0 1_5500_frontend_pages_main html (7)" src="https://github.com/user-attachments/assets/1d05421a-c7bb-4433-b590-e4181bf146f8" />
 <img width="1900" height="1323" alt="127 0 0 1_5500_frontend_pages_userPanel_recent-seen html" src="https://github.com/user-attachments/assets/9d24003e-6990-4b47-8964-e370b48eb8ea" />
 <img width="1920" height="651" alt="127 0 0 1_5500_frontend_pages_userPanel_posts html_page=2" src="https://github.com/user-attachments/assets/2f808839-c55b-4b2e-ad3e-2ec092d0ec8d" />
 
