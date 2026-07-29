@@ -1,12 +1,20 @@
-import { calcualetRelativeTime, getAllUsersPosts } from "../funcs/shared.js";
+import {
+  calcualetRelativeTime,
+  getAllUsersPosts,
+  getUrlParam,
+  paginateItems,
+} from "../funcs/shared.js";
 
 window.addEventListener("load", () => {
   const notesEl = document.querySelector(".posts");
   const emptyEl = document.querySelector(".empty");
+  const paginationContainer = document.querySelector(".pagination-items");
 
-  getAllUsersPosts().then((post) => {
+  let page = getUrlParam("page");
+  !page ? (page = 1) : null;
+  getAllUsersPosts(page).then((post) => {
     const posts = post.data.posts;
-    console.log(posts);
+    console.log(post.data.pagination);
     if (posts.length > 0) {
       posts.map((post) => {
         notesEl.insertAdjacentHTML(
@@ -37,6 +45,13 @@ window.addEventListener("load", () => {
             `,
         );
       });
+      paginateItems(
+        "/frontend/pages/userPanel/posts.html",
+        paginationContainer,
+        page,
+        post.data.pagination.totalPosts,
+        2,
+      );
     } else {
       emptyEl.classList.add("empty--active");
     }

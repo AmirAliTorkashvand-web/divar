@@ -20,7 +20,7 @@ window.addEventListener("load", () => {
   logoutEl.addEventListener("click", () => {
     showSwalQuestion("مطمئنی؟", "آیا از خروج مطمئنی؟", "warning", () => {
       removeCookie("user");
-      location.href = "frontend/pages/main.html";
+      location.href = "http://127.0.0.1:5500/frontend/pages/main.html";
     });
   });
 });

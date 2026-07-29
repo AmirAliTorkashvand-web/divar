@@ -206,8 +206,8 @@ const getAllUsersNotes = async () => {
   return data;
 };
 
-const getAllUsersPosts = async () => {
-  const res = await fetch("https://divarapi.liara.run/v1/user/posts", {
+const getAllUsersPosts = async (page) => {
+  const res = await fetch(`https://divarapi.liara.run/v1/user/posts?page=${page}&limit=2`, {
     headers: {
       Authorization: `Bearer ${getToken()}`,
     },
@@ -245,6 +245,27 @@ const removeCookie = (cookieName) => {
   document.cookie = `${cookieName}=; path=/; max-age=0`;
 };
 
+const paginateItems = (
+  href,
+  paginateContainer,
+  currentPage,
+  totalItems,
+  itemPerPage,
+) => {
+  paginateContainer.innerHTML = "";
+  let paginatedCount = Math.ceil(totalItems / itemPerPage);
+  for (let i = 1; i <= paginatedCount; i++) {
+    paginateContainer.insertAdjacentHTML(
+      "beforeend",
+      `
+        <li class="${i === Number(currentPage) ? "active" : ""}">
+          <a href="${href}?page=${i}">${i}</a>
+        </li>
+      `,
+    );
+  }
+};
+
 export {
   popularCities,
   setCityCookie,
@@ -270,4 +291,5 @@ export {
   getAllUsersPosts,
   showSwalQuestion,
   removeCookie,
+  paginateItems,
 };
