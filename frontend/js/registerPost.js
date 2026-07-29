@@ -27,7 +27,6 @@ window.addEventListener("load", async () => {
   const subCategory = subCategories.find(
     (category) => category.slug === categorySlug,
   );
-  console.log(subCategory);
 
   let city;
   let neighborhood;
@@ -92,7 +91,6 @@ window.addEventListener("load", async () => {
 
   window.provinceClickHandler = (province) => {
     provinceID = province;
-    console.log(provinceID);
   };
 
   popularCities().then((res) => {
@@ -168,7 +166,6 @@ window.addEventListener("load", async () => {
   exchangeEls.forEach((exchangeEl) => {
     exchangeEl.addEventListener("change", (event) => {
       exchange = event.target.value === "true";
-      console.log(exchange);
     });
   });
 
@@ -182,7 +179,6 @@ window.addEventListener("load", async () => {
 
   window.fieldHandler = (slug, data) => {
     categoryFields[slug] = data;
-    console.log(categoryFields);
   };
 
   subCategory.productFields.map((field) => {
@@ -326,9 +322,7 @@ window.addEventListener("load", async () => {
         body: formData,
       },
     );
-    console.log(res);
     const data = await res.json();
-    console.log(data.data.post);
 
     if (res.status === 201) {
       showSwal("موفق", "آگهی با موفقیت ساخته شد", "success");

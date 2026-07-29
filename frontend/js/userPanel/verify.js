@@ -42,7 +42,6 @@ window.addEventListener("load", async () => {
     event.preventDefault();
     const nationalCodeRegex = RegExp(/^[0-9]{10}$/);
     const isCodeValid = nationalCodeRegex.test(nationalCode);
-    console.log(isCodeValid);
 
     if (isCodeValid) {
       errorEl.classList.remove("error--active");
@@ -56,7 +55,6 @@ window.addEventListener("load", async () => {
           nationalCode: nationalCode,
         }),
       });
-      console.log(res);
       if (res.ok) {
         showSwal("موفق", "با موفقیت تایید هویت شدید", "success");
       } else {

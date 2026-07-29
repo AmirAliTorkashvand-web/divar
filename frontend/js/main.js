@@ -18,7 +18,6 @@ window.addEventListener("load", async () => {
   let appliedFIlters = {};
   window.selectBoxFilterHandler = (value, slug) => {
     appliedFIlters[slug] = value;
-    console.log({ slug, value });
     filterPosts(posts);
   };
 
@@ -71,7 +70,6 @@ window.addEventListener("load", async () => {
   const renderPosts = (posts) => {
     productWrapper.innerHTML = "";
 
-    console.log(posts);
     if (posts.length > 0) {
       posts.forEach((product) => {
         productWrapper.insertAdjacentHTML(
@@ -311,7 +309,6 @@ window.addEventListener("load", async () => {
     let filteredPosts = [...backupPosts];
 
     for (const slug in appliedFIlters) {
-      console.log("slug -> ", slug);
 
       filteredPosts = filteredPosts.filter((post) => {
         return post.dynamicFields.some(

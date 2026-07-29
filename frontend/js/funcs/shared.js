@@ -113,11 +113,7 @@ const getUrlParam = (param) => {
 const removeParamFromUrl = (param) => {
   const url = new URL(window.location);
 
-  console.log("قبل:", url.search);
-
   url.searchParams.delete(param);
-
-  console.log("بعد:", url.search);
 
   window.location = url.toString();
 };
@@ -207,11 +203,14 @@ const getAllUsersNotes = async () => {
 };
 
 const getAllUsersPosts = async (page) => {
-  const res = await fetch(`https://divarapi.liara.run/v1/user/posts?page=${page}&limit=2`, {
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
+  const res = await fetch(
+    `https://divarapi.liara.run/v1/user/posts?page=${page}&limit=2`,
+    {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
     },
-  });
+  );
   const data = await res.json();
   return data;
 };

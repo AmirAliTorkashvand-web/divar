@@ -63,7 +63,6 @@ window.addEventListener("load", async () => {
     );
 
     popularCities.map((city) => {
-      console.log(popularCities);
       cityWrapper.insertAdjacentHTML(
         "beforeend",
         `

@@ -128,7 +128,6 @@ window.addEventListener("load", async () => {
       tempCities = tempCities.filter((city) => city.name !== cityTitle);
     }
     updateModalCities();
-    console.log(tempCities);
   };
 
   window.cityDeleteHandler = (cityId) => {
@@ -496,6 +495,9 @@ window.addEventListener("load", async () => {
       );
 
       closeModal();
+      setTimeout(() => {
+        location.reload();
+      }, 1500);
     }
 
     if (res.status === 400) {

@@ -14,7 +14,6 @@ window.addEventListener("load", () => {
   !page ? (page = 1) : null;
   getAllUsersPosts(page).then((post) => {
     const posts = post.data.posts;
-    console.log(post.data.pagination);
     if (posts.length > 0) {
       posts.map((post) => {
         notesEl.insertAdjacentHTML(

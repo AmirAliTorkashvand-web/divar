@@ -21,7 +21,6 @@ window.addEventListener("load", () => {
 
   getPost(postID).then((res) => {
     const postDetail = res.data.post;
-    console.log(postDetail);
 
     breadcrumbsEl.insertAdjacentHTML(
       "beforeend",
@@ -104,7 +103,6 @@ window.addEventListener("load", () => {
               }),
             },
           );
-          console.log(res);
         } else {
           const res = await fetch("https://divarapi.liara.run/v1/note/", {
             method: "POST",
