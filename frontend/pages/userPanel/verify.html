@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>صفحه حساب شخصی شما در سایت دیوار</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="https://support-faq.divarcdn.com/web/2024/03/favicon-32x32.png"
+    />
+    <link rel="stylesheet" href="../../vendor/bootstrap/bootstrap.css" />
+    <link
+      rel="stylesheet"
+      href="../../vendor/bootstrap_icon/bootstraicon.css"
+    />
+    <link rel="stylesheet" href="../../css/share copy.css" />
+    <link rel="stylesheet" href="../../css/userPanel/verify.css" />
+  </head>
+
+  <body>
+    <!--!==========================================Header==========================================!-->
+    <header class="header">
+      <div class="container-fluid">
+        <div class="header__wrapper">
+          <div class="header__right">
+            <a class="header__logo-link" href="#">
+              <img
+                class="header__logo-img"
+                src="../../images/header/logo.svg"
+                alt="logo"
+              />
+            </a>
+            <button class="header__country">
+              <i class="header__country-icon bi bi-geo-alt"></i>
+              <span class="header__country-title"></span>
+            </button>
+          </div>
+          <div class="header__left">
+            <a class="header__left-link" href="#">
+              <i class="header__left-icon bi bi-person"></i>
+              دیوار من
+            </a>
+            <div class="header__left-dropdown">
+              <ul class="header__left-dropdown-list">
+                <li class="header__left-dropdown-item">
+                  <a class="header__left-dropdown-link" href="#">
+                    <i
+                      class="header__left-dropdown-icon bi bi-box-arrow-in-left"
+                    ></i>
+                    ورود
+                  </a>
+                </li>
+                <li class="header__left-dropdown-item">
+                  <a class="header__left-dropdown-link" href="#">
+                    <i class="header__left-dropdown-icon bi bi-journal"></i>
+                    یادداشت ها
+                  </a>
+                </li>
+                <li class="header__left-dropdown-item">
+                  <a class="header__left-dropdown-link" href="#">
+                    <i
+                      class="header__left-dropdown-icon bi bi-clock-history"
+                    ></i>
+                    بازدید های اخیر
+                  </a>
+                </li>
+                <li class="header__left-dropdown-item">
+                  <a class="header__left-dropdown-link" href="#">
+                    <i class="header__left-dropdown-icon bi bi-shop"></i>
+                    دیوار برای کسب و کارها
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!--!==========================================End Header==========================================!-->
+
+    <!--!==========================================Main==========================================!-->
+    <main class="main">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-3">
+            <div class="sidebar">
+              <div class="sidebar__user">
+                <div class="sidebar__user-right">
+                  <i class="sidebar__user-icon bi bi-person"></i>
+                </div>
+                <div class="sidebar__user-left">
+                  <div class="sidebar__user-text">کاربر دیوار</div>
+                  <p id="sidebar-phone-number" class="sidebar__user-phone"></p>
+                </div>
+              </div>
+              <ul class="sidebar__menu-list">
+                <li class="sidebar__menu-item">
+                  <a
+                    class="sidebar__menu-link sidebar__menu-link--active"
+                    href="verify.html"
+                  >
+                    <i class="sidebar__menu-icon bi bi-patch-check"></i>
+                    تایید هویت
+                  </a>
+                </li>
+                <li class="sidebar__menu-item">
+                  <a class="sidebar__menu-link" href="posts.html">
+                    <i class="sidebar__menu-icon bi bi-journal"></i>
+                    آگهی های من
+                  </a>
+                </li>
+                <li class="sidebar__menu-item">
+                  <a class="sidebar__menu-link" href="notes.html">
+                    <i class="sidebar__menu-icon bi bi-journal"></i>
+                    یادداشت ها
+                  </a>
+                </li>
+                <li class="sidebar__menu-item">
+                  <a class="sidebar__menu-link" href="recent-seen.html">
+                    <i class="sidebar__menu-icon bi bi-clock-history"></i>
+                    بازدید های اخیر
+                  </a>
+                </li>
+              </ul>
+              <p class="sidebar__logout sidebar__link-item" id="logout-btn">
+                <i
+                  class="sidebar__logout-icon sidebar__link-icon bi bi-box-arrow-right"
+                ></i>
+                خروج
+              </p>
+              <div class="sidebar__links">
+                <a class="sidebar__link" href="#">درباره دیوار</a>
+                <a class="sidebar__link" href="#">دریافت برنامه</a>
+                <a class="sidebar__link" href="#">پشتیبانی و قوانین</a>
+              </div>
+              <div class="sidebar__social">
+                <a class="sidebar__social-link" href="#">
+                  <i class="sidebar__social-icon bi bi-twitter"></i>
+                </a>
+                <a class="sidebar__social-link" href="#">
+                  <i class="sidebar__social-icon bi bi-instagram"></i>
+                </a>
+                <a class="sidebar__social-link" href="#">
+                  <i class="sidebar__social-icon bi bi-linkedin"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-9 verify-box">
+            <div class="verify" id="verify-container">
+              <div class="verify__notics">
+                <p class="verify__notic">
+                  تأیید هویت برای افزایش اعتماد کاربران و سلامت تعاملات انجام
+                  می‌شود. اطلاعات شناسایی شما در هیچ صفحه‌ای نمایش داده نمی‌شود.
+                </p>
+                <div class="verify__notic">
+                  <p>
+                    حساب شما در دیوار با شمارهٔ
+                    <span id="phone-number"></span> فعال است.
+                  </p>
+                </div>
+              </div>
+              <div class="verify__nationality">
+                <span class="verify__nationality-title">ملیت</span>
+                <span class="verify__nationality-subtitle"
+                  >ملیت خود را انتخاب کنید.</span
+                >
+                <div class="verify__nationality-select">
+                  <div class="verify__nationality-select-wrapper">
+                    <select id>
+                      <option value="ایرانی">ایرانی</option>
+                      <option value="اتباع خارجی">اتباع خارجی</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="verify__national-code">
+                <span class="verify__national-code-title">کد ملی</span>
+                <span class="verify__national-code-subtitle"
+                  >لطفا کد ملی خود را وارد کنید.</span
+                >
+                <form class="verify__national-code-form" action="#">
+                  <input
+                    class="verify__national-input"
+                    type="text"
+                    id="verify-input"
+                    placeholder="مثال : 127777777"
+                  />
+                  <span id="verify-error" class="error">
+                    کد ملی وارد شده اشتباه است
+                    <i class="bi bi-x-circle"></i>
+                  </span>
+                  <button
+                    class="verify__national-btn"
+                    id="verify-btn"
+                    type="button"
+                  >
+                    ثبت
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!--!==========================================End Main==========================================!-->
+
+    <!--!==========================================city Modal==========================================!-->
+    <section class="country-modal">
+      <div class="country-modal__header">
+        <div class="country-modal__header-wrapper">
+          <div class="country-modal__title-wrapper">
+            <span class="country-modal__title">انتخاب شهر</span>
+            <button class="country-modal__btn">حذف همه</button>
+          </div>
+          <div class="country-modal__selected"></div>
+          <div class="country-modal__searchbar">
+            <form class="country-modal__form">
+              <input
+                class="country-modal__input"
+                type="text"
+                placeholder="جستجو در شهرها"
+              />
+              <i class="country-modal__icon bi bi-search"></i>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="country-modal__cities">
+        <ul class="country-modal__cities-list"></ul>
+      </div>
+      <div class="country-modal__footer">
+        <div class="country-modal__footer-wrapper">
+          <button class="country-modal__btn-footer country-modal__close">
+            انصراف
+          </button>
+          <button
+            class="country-modal__btn-footer country-modal__accept--active"
+          >
+            تایید
+          </button>
+        </div>
+      </div>
+    </section>
+    <!--!==========================================End city Modal==========================================!-->
+    <script src="../../js/userPanel/verify.js" type="module"></script>
+    <script src="../../vendor/bootstrap/bootstrap.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../../js/usable.js" type="module"></script>
+    <script src="../../js/userPanel/usable.js" type="module"></script>
+  </body>
+</html>

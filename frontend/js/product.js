@@ -134,4 +134,17 @@ window.addEventListener("load", () => {
     productLocationAndTimeEl.innerHTML = `${calcualetRelativeTime(postDetail.updatedAt)} در ${postDetail.city.name} , ${postDetail.neighborhood.name}`;
     postDescriptionEl.innerHTML = postDetail.description;
   });
+
+  const addRecentSeen = (id) => {
+    let recentSeen = JSON.parse(localStorage.getItem("recentSeen")) || [];
+
+    recentSeen = recentSeen.filter((item) => item !== id);
+
+    recentSeen.unshift(id);
+    recentSeen = recentSeen.slice(0, 10);
+
+    localStorage.setItem("recentSeen", JSON.stringify(recentSeen));
+  };
+
+  addRecentSeen(postID);
 });

@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Main</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="https://support-faq.divarcdn.com/web/2024/03/favicon-32x32.png"
+    />
+    <link rel="stylesheet" href="../../vendor/bootstrap/bootstrap.css" />
+    <link
+      rel="stylesheet"
+      href="../../vendor/bootstrap_icon/bootstraicon.css"
+    />
+    <link rel="stylesheet" href="../../css/share copy.css" />
+    <link rel="stylesheet" href="../../css/userPanel/recent-seen.css" />
+  </head>
+
+  <body>
+    <!--!==========================================Header==========================================!-->
+    <header class="header">
+      <div class="container-fluid">
+        <div class="header__wrapper">
+          <div class="header__right">
+            <a class="header__logo-link" href="#">
+              <img
+                class="header__logo-img"
+                src="../../images/header/logo.svg"
+                alt="logo"
+              />
+            </a>
+            <button class="header__country">
+              <i class="header__country-icon bi bi-geo-alt"></i>
+              <span class="header__country-title"></span>
+            </button>
+          </div>
+          <div class="header__left">
+            <a class="header__left-link" href="#">
+              <i class="header__left-icon bi bi-person"></i>
+              دیوار من
+            </a>
+            <div class="header__left-dropdown">
+              <ul class="header__left-dropdown-list">
+                <li class="header__left-dropdown-item">
+                  <a class="header__left-dropdown-link" href="#">
+                    <i
+                      class="header__left-dropdown-icon bi bi-box-arrow-in-left"
+                    ></i>
+                    ورود
+                  </a>
+                </li>
+                <li class="header__left-dropdown-item">
+                  <a class="header__left-dropdown-link" href="#">
+                    <i class="header__left-dropdown-icon bi bi-journal"></i>
+                    یادداشت ها
+                  </a>
+                </li>
+                <li class="header__left-dropdown-item">
+                  <a class="header__left-dropdown-link" href="#">
+                    <i
+                      class="header__left-dropdown-icon bi bi-clock-history"
+                    ></i>
+                    بازدید های اخیر
+                  </a>
+                </li>
+                <li class="header__left-dropdown-item">
+                  <a class="header__left-dropdown-link" href="#">
+                    <i class="header__left-dropdown-icon bi bi-shop"></i>
+                    دیوار برای کسب و کارها
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!--!==========================================End Header==========================================!-->
+
+    <!--!==========================================Main==========================================!-->
+    <main class="main">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-3">
+            <div class="sidebar">
+              <div class="sidebar__user">
+                <div class="sidebar__user-right">
+                  <i class="sidebar__user-icon bi bi-person"></i>
+                </div>
+                <div class="sidebar__user-left">
+                  <div class="sidebar__user-text">کاربر دیوار</div>
+                  <p id="sidebar-phone-number" class="sidebar__user-phone"></p>
+                </div>
+              </div>
+              <ul class="sidebar__menu-list">
+                <li class="sidebar__menu-item">
+                  <a class="sidebar__menu-link" href="verify.html">
+                    <i class="sidebar__menu-icon bi bi-patch-check"></i>
+                    تایید هویت
+                  </a>
+                </li>
+                <li class="sidebar__menu-item">
+                  <a class="sidebar__menu-link" href="posts.html">
+                    <i class="sidebar__menu-icon bi bi-journal"></i>
+                    آگهی های من
+                  </a>
+                </li>
+                <li class="sidebar__menu-item">
+                  <a class="sidebar__menu-link" href="notes.html">
+                    <i class="sidebar__menu-icon bi bi-journal"></i>
+                    یادداشت ها
+                  </a>
+                </li>
+                <li class="sidebar__menu-item">
+                  <a
+                    class="sidebar__menu-link sidebar__menu-link--active"
+                    href="recent-seen.html"
+                  >
+                    <i class="sidebar__menu-icon bi bi-clock-history"></i>
+                    بازدید های اخیر
+                  </a>
+                </li>
+              </ul>
+              <p class="sidebar__logout sidebar__link-item" id="logout-btn">
+                <i
+                  class="sidebar__logout-icon sidebar__link-icon bi bi-box-arrow-right"
+                ></i>
+                خروج
+              </p>
+              <div class="sidebar__links">
+                <a class="sidebar__link" href="#">درباره دیوار</a>
+                <a class="sidebar__link" href="#">دریافت برنامه</a>
+                <a class="sidebar__link" href="#">پشتیبانی و قوانین</a>
+              </div>
+              <div class="sidebar__social">
+                <a class="sidebar__social-link" href="#">
+                  <i class="sidebar__social-icon bi bi-twitter"></i>
+                </a>
+                <a class="sidebar__social-link" href="#">
+                  <i class="sidebar__social-icon bi bi-instagram"></i>
+                </a>
+                <a class="sidebar__social-link" href="#">
+                  <i class="sidebar__social-icon bi bi-linkedin"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-9">
+            <section class="posts" id="posts-container"></section>
+
+            <div class="empty">
+              <img
+                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0wIDBoMjAwdjIwMEgweiIvPjxnIGZpbGwtcnVsZT0ibm9uemVybyI+PHBhdGggZmlsbD0iIzkxOUJBQSIgZD0ibTEzNi43NiAxNzQuNjMtMzQuNDMtMTAuNzgtNDIuNjctOS40LTMxLjAzLTEwLjYgMjIuMTctMjUuOCA5MC4zMyAzMi4zMnoiIG9wYWNpdHk9Ii4zMiIvPjxwYXRoIGZpbGw9IiNFQUVERUYiIGQ9Im0yMC44IDEyNy44NCAzOC42OCAyNS44NiA0Mi44NS01Mi45NS0zOC42Ny0yNS44N3oiLz48cGF0aCBmaWxsPSIjRjlGQkZDIiBkPSJtNTkuNDggMTUzLjcgMzguNDItNC45M0wxNDEgOTUuODJsLTM4LjY3IDQuOTN6Ii8+PHBhdGggZmlsbD0iI0U5RURFRiIgZD0ibTk3LjkgMTQ4Ljc3IDM4LjQzIDI1Ljg2IDQzLjEtNTIuN0wxNDEgOTUuODF6Ii8+PHBhdGggZmlsbD0iI0NCRDBFMCIgZD0ibTY0LjczIDEyOS4yMyAyLjAzIDEuNDEgMjQuNTgtMzAuMjMtMi4wMy0xLjQ4em0xMy41LTguODIgMi4wMyAxLjQxIDE0Ljg0LTE4LjIxLTIuMDMtMS40OHoiLz48cGF0aCBmaWxsPSIjRTNFOEYyIiBkPSJtNzcuNDYgMTM2LjM2IDIuMTUtLjI1TDEwMy44IDEwNmgtMi4yMnptMTMuMTctNC42MiAyLjE1LS4yNSA4Ljg4LTExLjA4aC0yLjIyem0xMS4wMy0xNC4wNCAyLjE1LS4yNSA4Ljg3LTExLjA3aC0yLjIyem0tMTQuNTQgMTIuMTYgMi4xNS0uMjUgMTguODUtMjMuNThoLTIuMjJ6Ii8+PHBhdGggZmlsbD0iI0U0RTlFRSIgZD0ibTEwNC44MyAxNDAuNDYtNi4wOS42NyAxOS40Ni0yNC4zNyA2LjQtLjc0eiIvPjxwYXRoIGZpbGw9IiNDOUQwREUiIGQ9Im0xMDQuODMgMTQwLjQ2IDExLjAzIDcuNTEgMTkuNy0yNC42Mi0xMC45Ni03LjMzem0tNTUuMjUtMzEuMjggMTAuOCA3LjgzTDgwLjggOTIuOTdsLTEwLjc0LTcuNjV6bTEwMi4xNCAyOS44IDEuOTQgMS41IDE0LjgtMTguMS0yLjItMS41N3oiLz48L2c+PC9nPjwvc3ZnPg=="
+                alt
+              />
+              <p>اخیراً از هیچ آگهی‌ای بازدید نکرده‌اید</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!--!==========================================End Main==========================================!-->
+
+    <!--!==========================================city Modal==========================================!-->
+    <section class="country-modal">
+      <div class="country-modal__header">
+        <div class="country-modal__header-wrapper">
+          <div class="country-modal__title-wrapper">
+            <span class="country-modal__title">انتخاب شهر</span>
+            <button class="country-modal__btn">حذف همه</button>
+          </div>
+          <div class="country-modal__selected"></div>
+          <div class="country-modal__searchbar">
+            <form class="country-modal__form">
+              <input
+                class="country-modal__input"
+                type="text"
+                placeholder="جستجو در شهرها"
+              />
+              <i class="country-modal__icon bi bi-search"></i>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="country-modal__cities">
+        <ul class="country-modal__cities-list"></ul>
+      </div>
+      <div class="country-modal__footer">
+        <div class="country-modal__footer-wrapper">
+          <button class="country-modal__btn-footer country-modal__close">
+            انصراف
+          </button>
+          <button
+            class="country-modal__btn-footer country-modal__accept--active"
+          >
+            تایید
+          </button>
+        </div>
+      </div>
+    </section>
+    <!--!==========================================Overlay Modal==========================================!-->
+    <section class="overlay"></section>
+    <!--!==========================================End Overlay Modal==========================================!-->
+
+    <script src="../../js/userPanel/recentSeen.js" type="module"></script>
+    <script src="../../vendor/bootstrap/bootstrap.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../../js/usable.js" type="module"></script>
+    <script src="../../js/userPanel/usable.js" type="module"></script>
+  </body>
+</html>

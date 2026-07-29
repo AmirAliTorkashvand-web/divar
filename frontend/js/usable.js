@@ -542,4 +542,16 @@ window.addEventListener("load", async () => {
       overlayEl.classList.add("overlay--active");
     }
   });
+
+  // user panel
+  const userPanelsLinkEls = document.querySelectorAll(
+    ".header__left-dropdown-link",
+  );
+
+  userPanelsLinkEls.forEach((link) => {
+    link.addEventListener("click", () => {
+      const urlData = link.dataset.section;
+      location.href = `/frontend/pages/userPanel/${urlData}.html`;
+    });
+  });
 });

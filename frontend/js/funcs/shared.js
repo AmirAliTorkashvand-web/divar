@@ -187,13 +187,62 @@ const getMe = async () => {
   });
   const data = await res.json();
 
-  return res.status === 200 ? true : false;
+  return data;
 };
 
 const getAllSubCategories = async () => {
   const res = await fetch("https://divarapi.liara.run/v1/category/sub");
   const data = await res.json();
   return data;
+};
+
+const getAllUsersNotes = async () => {
+  const res = await fetch("https://divarapi.liara.run/v1/user/notes", {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+  const data = await res.json();
+  return data;
+};
+
+const getAllUsersPosts = async () => {
+  const res = await fetch("https://divarapi.liara.run/v1/user/posts", {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+  const data = await res.json();
+  return data;
+};
+
+const showSwalQuestion = (
+  title,
+  text,
+  icon,
+  confirmCallback,
+  cancelCallback,
+) => {
+  Swal.fire({
+    title,
+    text,
+    icon,
+    showCancelButton: true,
+    confirmButtonText: "تایید",
+    cancelButtonText: "لغو",
+  }).then((result) => {
+    if (result.isConfirmed && confirmCallback) {
+      confirmCallback();
+    }
+
+    if (result.isDismissed && cancelCallback) {
+      cancelCallback();
+    }
+  });
+};
+
+const removeCookie = (cookieName) => {
+  document.cookie = `${cookieName}=; path=/; max-age=0`;
 };
 
 export {
@@ -217,4 +266,8 @@ export {
   getMe,
   getToken,
   getAllSubCategories,
+  getAllUsersNotes,
+  getAllUsersPosts,
+  showSwalQuestion,
+  removeCookie,
 };
